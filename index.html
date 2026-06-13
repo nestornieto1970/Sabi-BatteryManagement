@@ -10,23 +10,23 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SABI">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
   :root {
-    --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--border:#30363d;--border-bright:#444c56;
-    --text:#e6edf3;--text-muted:#7d8590;--text-dim:#484f58;
-    --accent:#39d353;--accent-dim:#1a4d24;--accent-glow:rgba(57,211,83,0.15);
-    --warning:#f0c040;--warning-dim:#3d2f00;
-    --danger:#f85149;--danger-dim:#3d0f0f;--danger-glow:rgba(248,81,73,0.12);
-    --blue:#58a6ff;--blue-dim:#0d2245;--blue-glow:rgba(88,166,255,0.12);
-    --orange:#fb8f44;--orange-dim:#3d1f00;--orange-glow:rgba(251,143,68,0.12);
-    --purple:#bc8cff;--purple-dim:#2d1f4d;--purple-glow:rgba(188,140,255,0.12);
-    --mono:'Space Mono',monospace;--sans:'DM Sans',sans-serif;--radius:10px;--radius-lg:16px;
+    --bg:#f5f6fa;--surface:#ffffff;--surface2:#f0f1f5;--border:#dde1e7;--border-bright:#c5cad4;
+    --text:#1a1d23;--text-muted:#6b7280;--text-dim:#9ca3af;--text-num:#4b5563;
+    --accent:#2da44e;--accent-dim:#d4f0dc;--accent-glow:rgba(45,164,78,0.12);
+    --warning:#b45309;--warning-dim:#fef3c7;
+    --danger:#dc2626;--danger-dim:#fee2e2;--danger-glow:rgba(220,38,38,0.10);
+    --blue:#1d6ae5;--blue-dim:#dbeafe;--blue-glow:rgba(29,106,229,0.10);
+    --orange:#c2410c;--orange-dim:#ffedd5;--orange-glow:rgba(194,65,12,0.10);
+    --purple:#7c3aed;--purple-dim:#ede9fe;--purple-glow:rgba(124,58,237,0.10);
+    --mono:'DM Sans',sans-serif;--sans:'DM Sans',sans-serif;--radius:10px;--radius-lg:16px;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;min-height:100vh;display:flex;flex-direction:column;max-width:640px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom,20px);width:100%}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;min-height:100vh;display:flex;flex-direction:column;max-width:640px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom,20px);width:100%}
   @media(min-width:600px){.main{padding:28px}.pin-key{height:82px!important;font-size:26px!important}.menu-card{padding:28px 20px}.menu-card-icon{font-size:40px!important}.menu-card-title{font-size:15px!important}.menu-card-desc{font-size:14px!important}.toggle-btn{padding:22px 14px}.toggle-btn .tbicon{font-size:32px!important}.toggle-btn .tblabel{font-size:13px!important}.toggle-btn .tbsub{font-size:13px!important}.submit-btn{padding:22px!important;font-size:16px!important}select,input[type=text],input[type=number]{font-size:17px!important;padding:15px 16px!important}textarea{font-size:16px!important;padding:15px 16px!important}.scan-area{padding:36px 24px}.scan-icon{font-size:42px!important}.scan-title{font-size:16px!important}.scan-hint{font-size:14px!important}.clock-display strong{font-size:17px!important}.battery-id{font-size:22px!important}.datetime-value{font-size:18px!important}.field-label{font-size:15px!important}.meta-row{font-size:15px!important}.hist-title{font-size:16px!important}.hist-detail{font-size:14px!important}.list-id{font-size:20px!important}.list-sub{font-size:14px!important}.recent-equip{font-size:16px!important}.recent-detail{font-size:14px!important}.home-greeting h1{font-size:24px!important}.confirm-badge{font-size:13px!important;padding:6px 14px!important}}
   .app-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-  .app-logo{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.04em}
+  .app-logo{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.04em}
   .app-logo span{color:var(--text-muted);font-weight:400}
   .header-right{display:flex;align-items:center;gap:12px}
   .back-btn{display:none;background:none;border:1px solid var(--border);color:var(--text-muted);font-family:var(--mono);font-size:11px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.2s}
@@ -57,14 +57,14 @@
   .menu-card.cambio .menu-card-badge{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent)}
   .menu-card.retiro .menu-card-badge{background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger)}
   .home-recent{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px}
-  .home-recent-title{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px}
+  .home-recent-title{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.08em;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px}
   .recent-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
   .recent-item:last-child{border-bottom:none;padding-bottom:0}
   .recent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
   .recent-dot.cambio{background:var(--accent)}.recent-dot.retiro-servicio{background:var(--orange)}.recent-dot.retiro-scrap{background:var(--danger)}.recent-dot.retiro-garantia{background:var(--purple)}.recent-dot.retorno{background:var(--orange)}
-  .recent-main{flex:1}.recent-equip{font-family:var(--mono);font-size:13px;font-weight:700}.recent-detail{font-size:11px;color:var(--text-muted);margin-top:1px}.recent-time{font-family:var(--mono);font-size:10px;color:var(--text-dim)}
+  .recent-main{flex:1}.recent-equip{font-family:var(--sans);font-size:13px;font-weight:700}.recent-detail{font-size:11px;color:var(--text-muted);margin-top:1px}.recent-time{font-family:var(--sans);font-size:10px;color:var(--text-dim)}
   /* SHARED */
-  .section-title{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
+  .section-title{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.08em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px}
   .card.danger{border-color:var(--danger);background:var(--danger-glow)}
   .datetime-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
@@ -85,7 +85,7 @@
   select.filled,input.filled{border-color:var(--accent)}
   .battery-out-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .battery-out-box.confirmed{border-color:var(--accent)}
-  .battery-icon{font-size:24px}.battery-id{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--warning)}.battery-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+  .battery-icon{font-size:24px}.battery-id{font-family:var(--sans);color:var(--text-num);font-size:18px;font-weight:700;color:var(--warning)}.battery-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
   .confirm-badge{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid;cursor:pointer;font-family:var(--mono);transition:all 0.2s;white-space:nowrap}
   .confirm-badge.pending{border-color:var(--warning);color:var(--warning);background:var(--warning-dim)}.confirm-badge.ok{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
   .toggle-grid{display:grid;gap:10px;margin-bottom:12px}.toggle-grid-2{grid-template-columns:1fr 1fr}.toggle-grid-4{grid-template-columns:1fr 1fr}
@@ -103,8 +103,8 @@
   .step-indicator{display:flex;align-items:center;gap:6px;margin-bottom:24px}
   .step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all 0.3s}
   .step-dot.active{background:var(--accent);box-shadow:0 0 6px var(--accent)}.step-dot.active-danger{background:var(--danger);box-shadow:0 0 6px var(--danger)}.step-dot.done{background:var(--accent-dim)}
-  .step-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:0.08em;margin-left:4px}
-  .submit-btn{width:100%;border:none;border-radius:var(--radius-lg);padding:20px;font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;margin-top:8px}
+  .step-label{font-family:var(--sans);font-size:10px;color:var(--text-muted);letter-spacing:0.05em;letter-spacing:0.08em;margin-left:4px}
+  .submit-btn{width:100%;border:none;border-radius:var(--radius-lg);padding:20px;font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s;margin-top:8px}
   .submit-btn.green{background:var(--accent);color:#0d1117;box-shadow:0 0 20px rgba(57,211,83,0.3)}.submit-btn.green:hover{background:#4ae063}
   .submit-btn.red{background:var(--danger);color:#fff;box-shadow:0 0 20px rgba(248,81,73,0.3)}.submit-btn.red:hover{background:#ff6b63}
   .submit-btn.ghost{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);box-shadow:none}.submit-btn.ghost:hover{color:var(--text)}
@@ -124,7 +124,7 @@
   .result-meta{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;width:100%;text-align:left;margin-bottom:24px}
   .meta-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
   .meta-row:last-child{border-bottom:none}.meta-row span:first-child{color:var(--text-muted)}.meta-row span:last-child{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right;max-width:55%}
-  .new-btn{width:100%;background:transparent;border:2px solid var(--border-bright);color:var(--text-muted);border-radius:var(--radius-lg);padding:14px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;margin-bottom:10px}
+  .new-btn{width:100%;background:transparent;border:2px solid var(--border-bright);color:var(--text-muted);border-radius:var(--radius-lg);padding:14px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s;margin-bottom:10px}
   .new-btn:hover{border-color:var(--text-muted);color:var(--text)}
   .home-btn{width:100%;background:transparent;border:2px solid var(--border);color:var(--text-dim);border-radius:var(--radius-lg);padding:12px;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all 0.2s}
   .home-btn:hover{color:var(--text-muted)}
@@ -149,7 +149,7 @@
   .pin-key:active{background:var(--surface2);border-color:var(--accent);transform:scale(0.94)}
   .pin-key-action{font-size:13px!important;font-weight:400!important;color:var(--text-muted)!important}
 
-  .hist-tab{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:all 0.15s}
+  .hist-tab{font-family:var(--sans);font-size:10px;letter-spacing:0.06em;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:all 0.15s}
   .hist-tab.active{background:var(--surface2);border-color:var(--border-bright);color:var(--text)}
   .hist-entry{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;transition:all 0.15s}
   .hist-entry:active{background:var(--surface2)}
@@ -160,7 +160,7 @@
   .hist-main{flex:1}
   .hist-title{font-family:var(--mono);font-size:13px;font-weight:700}
   .hist-detail{font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.4}
-  .hist-time{font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:right}
+  .hist-time{font-family:var(--sans);font-size:10px;color:var(--text-dim);text-align:right}
 </style>
 </head>
 <body>
@@ -172,7 +172,7 @@
   <!-- PFS cliente — arriba -->
   <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 16px 5px 10px;margin-bottom:24px">
     <img src="data:image/png;base64,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" alt="PFS" style="height:22px;width:auto;object-fit:contain;filter:brightness(1.8)">
-    <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:0.06em">PLAZA FOOD SYSTEMS</span>
+    <span style="font-family:var(--sans);font-size:10px;color:var(--text-muted);letter-spacing:0.05em;letter-spacing:0.06em">PLAZA FOOD SYSTEMS</span>
   </div>
   <div style="width:40px;height:1px;background:var(--border);margin-bottom:24px"></div>
   <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:0.06em" id="login-title">INGRESA TU PIN</div>
@@ -237,35 +237,31 @@
     <div onclick="openModule('cambio')" style="background:var(--surface);border:1px solid var(--accent-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">NORMAL</span>
       <div style="font-size:32px">🔄</div>
-      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)">CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Swap rutinario de batería</div></div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)">CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Intercambio rutinario de baterías</div></div>
     </div>
-    <!-- Retirar -->
-    <div onclick="openModule('retiro')" style="background:var(--surface);border:1px solid var(--danger-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
-      <span style="position:absolute;top:10px;right:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">RETIRO</span>
-      <div style="font-size:32px">🚨</div>
-      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--danger)">RETIRAR</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Servicio o scrap</div></div>
+    <!-- Lavado -->
+    <div onclick="openModule('lavado')" style="background:var(--surface);border:1px solid var(--blue-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:32px">🚿</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--blue)">LAVADO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías lavadas</div></div>
     </div>
-    <!-- Retorno -->
-    <div onclick="openModule('retorno')" style="background:var(--surface);border:1px solid var(--orange-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s;min-height:140px">
-      <div style="font-size:32px">🔁</div>
-      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--orange)">RETORNO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Regresa de servicio</div></div>
-    </div>
-    <!-- Historial -->
-    <div onclick="openModule('historial')" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s;min-height:140px">
-      <div style="font-size:32px">📋</div>
-      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">HISTORIAL</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Registros del día</div></div>
-    </div>
-    <!-- Inventario - full width -->
-    <div onclick="openModule('inventario')" style="grid-column:1/-1;grid-row:auto;background:var(--surface);border:1px solid var(--purple-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
-      <span style="position:absolute;top:10px;right:10px;background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SUPERVISOR</span>
+    <!-- Servicio Baterías - full width -->
+    <div onclick="openModule('servicio')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--danger-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <span style="position:absolute;top:10px;right:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SERVICIO</span>
       <div style="font-size:28px;flex-shrink:0">🔧</div>
-      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--purple)">INVENTARIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Agregar o dar de baja baterías</div></div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--danger)">SERVICIO BATERÍAS</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Requiere Servicio · Retorno</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
-    <!-- Lavado - full width -->
-    <div onclick="openModule('lavado')" style="grid-column:1/-1;grid-row:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
-      <div style="font-size:28px;flex-shrink:0">🧹</div>
-      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">LAVADO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías lavadas</div></div>
+    <!-- Historial - full width -->
+    <div onclick="openModule('historial')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:28px;flex-shrink:0">📋</div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">HISTORIAL</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Registros del día</div></div>
+      <div style="color:var(--text-dim);font-size:20px">›</div>
+    </div>
+    <!-- Inventario - full width -->
+    <div onclick="openModule('inventario')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--purple-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <span style="position:absolute;top:10px;right:10px;background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SUPERVISOR</span>
+      <div style="font-size:28px;flex-shrink:0">⚙️</div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--purple)">INVENTARIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Equipos y Baterías · Activar / Inactivar</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
   </div>
@@ -280,7 +276,10 @@
 
   <!-- Bottom logout button -->
   <div style="margin-top:28px;padding-bottom:8px">
-    <button onclick="logout()" style="width:100%;background:transparent;border:2px solid var(--danger);color:var(--danger);border-radius:var(--radius-lg);padding:20px;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s">SALIR DE LA APP →</button>
+    <div id="bottom-nav-btns" style="display:grid;grid-template-columns:1fr;gap:12px">
+    <button id="home-inicio-btn" onclick="goHome()" style="display:none;background:transparent;border:2px solid var(--border);color:var(--text-muted);border-radius:var(--radius-lg);padding:20px;font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s">← INICIO</button>
+    <button onclick="logout()" style="background:transparent;border:2px solid var(--danger);color:var(--danger);border-radius:var(--radius-lg);padding:20px;font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s">SALIR DE LA APP →</button>
+  </div>
   </div>
 </main>
 
@@ -313,6 +312,15 @@
         <div><div class="battery-id" id="c-bat-out-id">---</div><div class="battery-sub">Registrada en el sistema</div></div>
         <button class="confirm-badge pending" id="c-confirm-badge" onclick="cConfirmBat()">CONFIRMAR</button>
       </div>
+      <div id="c-bat-out-wrong" style="display:none;margin-top:10px">
+        <p class="section-title" style="margin-bottom:8px;color:var(--warning)">⚠️ Selecciona la batería correcta</p>
+        <div class="select-wrap">
+          <select id="c-bat-out-fix" onchange="cFixBatOut(this.value)" style="width:100%">
+            <option value="">— ¿Cuál es la batería que sale? —</option>
+          </select>
+        </div>
+      </div>
+      <button id="c-bat-out-wrong-btn" onclick="cShowWrongBat()" style="display:none;margin-top:8px;width:100%;background:transparent;border:1px solid var(--warning);color:var(--warning);border-radius:var(--radius);padding:10px;font-family:var(--mono);font-size:11px;cursor:pointer">⚠️ NO ES CORRECTA — INDICAR CUÁL ES</button>
     </div>
     <!-- Horómetro — aparece al seleccionar equipo -->
     <div id="c-hourm-section" style="display:none;margin-bottom:14px">
@@ -365,6 +373,24 @@
     <div class="field-group"><label class="field-label">Notas <span style="color:var(--text-dim)">(opcional)</span></label><textarea id="c-notes" placeholder="Observaciones…"></textarea></div>
     <div class="card" id="c-summary" style="display:none;margin-bottom:12px"><p class="section-title" style="margin-bottom:10px">RESUMEN</p><div id="c-summary-content"></div></div>
     <div class="btn-row"><button class="submit-btn ghost" style="flex:0.4" onclick="cGoStep(3)">← ATRÁS</button><button class="submit-btn green" id="c-btn-submit" onclick="cSubmit()" disabled>✓ REGISTRAR CAMBIO</button></div>
+  </div>
+</main>
+
+<!-- MÓDULO SERVICIO BATERÍAS (wrapper con tabs) -->
+<main class="main" id="servicio-screen" style="display:none">
+  <div style="margin-bottom:20px">
+    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--danger)">🔧 SERVICIO BATERÍAS</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Selecciona una opción</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div onclick="openServicioTab('retiro')" style="background:var(--surface);border:2px solid var(--danger-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
+      <div style="font-size:32px">🚨</div>
+      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--danger)">ENVIAR A SERVICIO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Retiro, scrap o garantía</div></div>
+    </div>
+    <div onclick="openServicioTab('retorno')" style="background:var(--surface);border:2px solid var(--orange-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
+      <div style="font-size:32px">🔁</div>
+      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)">RETORNO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Batería regresa de servicio</div></div>
+    </div>
   </div>
 </main>
 
@@ -541,7 +567,7 @@
       </div>
 
       <button id="inv-btn-nueva" onclick="invSubmitNueva()" disabled
-        style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.08em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(188,140,255,0.3)">
+        style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(188,140,255,0.3)">
         ➕ AGREGAR BATERÍA
       </button>
     </div>
@@ -594,7 +620,7 @@
       </div>
 
       <button id="inv-btn-baja" onclick="invSubmitBaja()" disabled
-        style="width:100%;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.08em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(248,81,73,0.3)">
+        style="width:100%;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(248,81,73,0.3)">
         🗑️ CONFIRMAR BAJA
       </button>
     </div>
@@ -620,35 +646,49 @@
     </div>
   </div>
   <div class="field-group" style="margin-bottom:14px">
-    <input type="text" id="lav-search" placeholder="Buscar batería (ej. B143)" oninput="lavFilter(this.value)" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;color:var(--text);font-family:var(--mono);font-size:14px;box-sizing:border-box">
+    <label class="field-label">Seleccionar batería</label>
+    <div class="select-wrap">
+      <select id="lav-bat-sel" onchange="lavSelectBat(this.value)" style="width:100%">
+        <option value="">— Seleccionar batería —</option>
+      </select>
+    </div>
   </div>
-  <div id="lav-list"></div>
+  <div id="lav-detail" style="display:none"></div>
 </main>
 
 
 <!-- HISTORIAL SCREEN -->
 <div class="main" id="historial-screen" style="display:none">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
     <div>
-      <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">HISTORIAL DEL DÍA</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text)">HISTORIAL</div>
       <div style="font-size:12px;color:var(--text-muted);margin-top:2px" id="hist-date-label">—</div>
     </div>
-    <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 12px" id="hist-count">0 registros</div>
+    <div style="font-size:11px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 12px" id="hist-count">0 registros</div>
+  </div>
+
+  <!-- Selector de fecha -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px">
+    <button onclick="histChangeDate(-1)" style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:16px;color:var(--text-muted)">‹</button>
+    <input type="date" id="hist-date-picker" onchange="histPickDate(this.value)"
+      style="flex:1;border:none;background:transparent;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--text);text-align:center;outline:none;cursor:pointer">
+    <button onclick="histChangeDate(1)" id="hist-next-btn" style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:16px;color:var(--text-muted)">›</button>
+    <button onclick="histGoToday()" id="hist-today-btn" style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:11px;font-weight:700;color:var(--accent)">HOY</button>
   </div>
 
   <!-- Filter tabs -->
   <div style="display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px">
-    <button class="hist-tab active" id="htab-all"   onclick="histFilter('all')">Todos</button>
-    <button class="hist-tab"        id="htab-cambio" onclick="histFilter('cambio')">🔄 Cambios</button>
-    <button class="hist-tab"        id="htab-retiro" onclick="histFilter('retiro')">🚨 Retiros</button>
-    <button class="hist-tab"        id="htab-retorno" onclick="histFilter('retorno')">🔁 Retornos</button>
+    <button class="hist-tab active" id="htab-all"    onclick="histFilter('all')">Todos</button>
+    <button class="hist-tab"       id="htab-cambio"  onclick="histFilter('cambio')">🔄 Cambios</button>
+    <button class="hist-tab"       id="htab-retiro"  onclick="histFilter('retiro')">🚨 Retiros</button>
+    <button class="hist-tab"       id="htab-retorno" onclick="histFilter('retorno')">🔁 Retornos</button>
   </div>
 
   <div id="hist-list">
     <div style="text-align:center;padding:48px 24px;color:var(--text-dim)">
       <div style="font-size:32px;margin-bottom:12px">📋</div>
-      <div style="font-family:var(--mono);font-size:12px">Sin registros aún</div>
-      <div style="font-size:12px;margin-top:6px">Los cambios aparecerán aquí</div>
+      <div style="font-size:12px">Sin registros aún</div>
     </div>
   </div>
 </div>
@@ -695,7 +735,7 @@
         <span class="tbicon">⚠️</span><span class="tblabel">NO REPARADA</span><span class="tbsub">Requiere revisión</span>
       </div>
     </div>
-    <button class="submit-btn" id="rt-btn1" onclick="rtGoStep(2)" disabled style="background:var(--orange);color:#0d1117;box-shadow:0 0 20px rgba(251,143,68,0.3);width:100%;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;margin-top:8px">CONTINUAR →</button>
+    <button class="submit-btn" id="rt-btn1" onclick="rtGoStep(2)" disabled style="background:var(--orange);color:#0d1117;box-shadow:0 0 20px rgba(251,143,68,0.3);width:100%;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:all 0.2s;margin-top:8px">CONTINUAR →</button>
   </div>
 
   <!-- PASO 2: operador y notas -->
@@ -716,7 +756,7 @@
     </div>
     <div class="btn-row">
       <button class="submit-btn ghost" style="flex:0.4" onclick="rtGoStep(1)">← ATRÁS</button>
-      <button id="rt-btn-submit" onclick="rtSubmit()" disabled style="flex:1;background:var(--orange);color:#0d1117;box-shadow:0 0 20px rgba(251,143,68,0.3);border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s">🔁 CONFIRMAR RETORNO</button>
+      <button id="rt-btn-submit" onclick="rtSubmit()" disabled style="flex:1;background:var(--orange);color:#0d1117;box-shadow:0 0 20px rgba(251,143,68,0.3);border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:all 0.2s">🔁 CONFIRMAR RETORNO</button>
     </div>
   </div>
 </main>
@@ -779,10 +819,16 @@ function populateSel(id,items,ph){const s=document.getElementById(id);s.innerHTM
 populateSel('c-equipo-sel',EQUIPOS,'— Seleccionar equipo —');
 populateSel('r-bat-sel',BATTERIES,'— Seleccionar batería —');
 
-function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
+function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','servicio-screen','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
 function openModule(mod){document.getElementById('back-btn').classList.add('show');document.getElementById('progress-fill').style.width='0%';if(mod==='cambio'){showScreen('cambio-screen');cGoStep(1,true);}if(mod==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}if(mod==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}if(mod==='historial'){showScreen('historial-screen');openHistorial();}
   if(mod==='inventario'){showScreen('inventario-screen');openInventario();}
-  if(mod==='lavado'){showScreen('lavado-screen');openLavado();}}
+  if(mod==='lavado'){showScreen('lavado-screen');openLavado();}
+  if(mod==='servicio'){showScreen('servicio-screen');}
+}
+function openServicioTab(tab){
+  if(tab==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}
+  if(tab==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}
+}
 function goHome(){document.getElementById('back-btn').classList.remove('show');document.getElementById('progress-fill').style.width='0%';showScreen('home-screen');window.scrollTo({top:0,behavior:'smooth'});}
 
 // CAMBIO
@@ -793,6 +839,8 @@ function cOnEquipo(val){
   if(val){
     const b=LAST_BAT[val]||null;
     document.getElementById('c-bat-out-section').style.display='block';
+    document.getElementById('c-bat-out-wrong-btn').style.display='none';
+    document.getElementById('c-bat-out-wrong').style.display='none';
     document.getElementById('c-bat-out-id').textContent=b||'Sin registro';
     cS.batOut=b||'';
     document.getElementById('c-confirm-badge').className='confirm-badge pending';
@@ -842,7 +890,34 @@ function cSelectHourm(val){
   document.getElementById('c-hourmeter').classList.add('filled');
   cCheckStep1();
 }
-function cConfirmBat(){cS.batOutOk=true;document.getElementById('c-confirm-badge').className='confirm-badge ok';document.getElementById('c-confirm-badge').textContent='✓ OK';document.getElementById('c-bat-out-box').className='battery-out-box confirmed';populateSel('c-batin-sel',BATTERIES.filter(b=>b!==cS.batOut),'— Seleccionar batería —');cCheckStep1();}
+function cConfirmBat(){
+  cS.batOutOk=true;
+  document.getElementById('c-confirm-badge').className='confirm-badge ok';
+  document.getElementById('c-confirm-badge').textContent='✓ OK';
+  document.getElementById('c-bat-out-box').className='battery-out-box confirmed';
+  document.getElementById('c-bat-out-wrong-btn').style.display='block';
+  document.getElementById('c-bat-out-wrong').style.display='none';
+  populateSel('c-batin-sel',BATTERIES.filter(b=>b!==cS.batOut),'— Seleccionar batería —');
+  cCheckStep1();
+}
+function cShowWrongBat(){
+  document.getElementById('c-bat-out-wrong').style.display='block';
+  document.getElementById('c-bat-out-wrong-btn').style.display='none';
+  populateSel('c-bat-out-fix',BATTERIES,'— ¿Cuál es la batería que sale? —');
+}
+function cFixBatOut(val){
+  if(!val) return;
+  cS.batOut=val;
+  cS.batOutOk=true;
+  document.getElementById('c-bat-out-id').textContent=val;
+  document.getElementById('c-confirm-badge').className='confirm-badge ok';
+  document.getElementById('c-confirm-badge').textContent='✓ CORREGIDA';
+  document.getElementById('c-bat-out-box').className='battery-out-box confirmed';
+  document.getElementById('c-bat-out-wrong').style.display='none';
+  document.getElementById('c-bat-out-wrong-btn').style.display='none';
+  populateSel('c-batin-sel',BATTERIES.filter(b=>b!==val),'— Seleccionar batería —');
+  cCheckStep1();
+}
 function cCheckStep1(){
   cS.hourmeter=document.getElementById('c-hourmeter')?document.getElementById('c-hourmeter').value:'';
   const ok = cS.equipo && cS.batOutOk && cS.hourmeter;
@@ -860,8 +935,9 @@ function cSubmit(){const now=new Date();const wl=cS.water==='add'?'➕ Agua agre
 let lavList = [];
 
 async function openLavado(){
-  document.getElementById('lav-search').value = '';
-  document.getElementById('lav-list').innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-dim);font-family:var(--mono);font-size:12px">Cargando…</div>';
+  const sel = document.getElementById('lav-bat-sel');
+  sel.innerHTML = '<option value="">— Seleccionar batería —</option>';
+  document.getElementById('lav-detail').style.display = 'none';
   // Get last wash per battery
   const washData = await supaFetch('/rest/v1/battery_wash_log?select=battery_id,wash_datetime&order=wash_datetime.desc');
   const lastWash = {};
@@ -869,33 +945,31 @@ async function openLavado(){
     washData.forEach(w=>{ if(!lastWash[w.battery_id]) lastWash[w.battery_id] = w.wash_datetime; });
   }
   lavList = BATTERIES.map(b=>({battery_id:b, last_wash: lastWash[b]||null}));
-  lavRender(lavList);
-}
-
-function lavFilter(q){
-  q = (q||'').trim().toUpperCase();
-  const filtered = q ? lavList.filter(x=>x.battery_id.toUpperCase().includes(q)) : lavList;
-  lavRender(filtered);
-}
-
-function lavRender(list){
-  const cont = document.getElementById('lav-list');
-  if(!list.length){
-    cont.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-dim);font-family:var(--mono);font-size:12px">Sin resultados</div>';
-    return;
-  }
-  cont.innerHTML = list.map(item=>{
+  lavList.forEach(item=>{
+    const opt = document.createElement('option');
+    opt.value = item.battery_id;
     const today = new Date().toDateString();
     const washedToday = item.last_wash && new Date(item.last_wash).toDateString() === today;
-    const lastLabel = item.last_wash ? new Date(item.last_wash).toLocaleString('es-PR',{dateStyle:'short',timeStyle:'short'}) : 'Sin registro';
-    return `<div class="card" style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px">
-      <div>
-        <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">${item.battery_id}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Último lavado: ${lastLabel}</div>
-      </div>
-      <button onclick="lavMark('${item.battery_id}')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:8px 14px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
-    </div>`;
-  }).join('');
+    opt.textContent = item.battery_id + (washedToday ? ' ✓' : '');
+    sel.appendChild(opt);
+  });
+}
+
+function lavSelectBat(batteryId){
+  const detail = document.getElementById('lav-detail');
+  if(!batteryId){ detail.style.display='none'; return; }
+  const item = lavList.find(x=>x.battery_id===batteryId);
+  const today = new Date().toDateString();
+  const washedToday = item && item.last_wash && new Date(item.last_wash).toDateString() === today;
+  const lastLabel = item && item.last_wash ? new Date(item.last_wash).toLocaleString('es-PR',{dateStyle:'short',timeStyle:'short'}) : 'Sin registro';
+  detail.style.display = 'block';
+  detail.innerHTML = `<div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px">
+    <div>
+      <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--text)">${batteryId}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Último lavado: ${lastLabel}</div>
+    </div>
+    <button onclick="lavMark('${batteryId}')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface2)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
+  </div>`;
 }
 
 async function lavMark(batteryId){
@@ -912,7 +986,12 @@ async function lavMark(batteryId){
   }
   const item = lavList.find(x=>x.battery_id===batteryId);
   if(item) item.last_wash = now;
-  lavFilter(document.getElementById('lav-search').value);
+  lavSelectBat(batteryId);
+  // Update dropdown option label
+  const sel = document.getElementById('lav-bat-sel');
+  for(let opt of sel.options){
+    if(opt.value === batteryId){ opt.textContent = batteryId + ' ✓'; break; }
+  }
 }
 
 
@@ -1214,38 +1293,91 @@ function showToast(msg){
 let historialRecords = [];
 let historialFilter = 'all';
 
-async function openHistorial(){
-  const now = new Date();
-  document.getElementById('hist-date-label').textContent =
-    now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+let histSelectedDate = '';
 
-  // Show loading state
+async function openHistorial(){
+  // Set to today if no date selected
+  if(!histSelectedDate){
+    const now = new Date();
+    // Puerto Rico UTC-4
+    const pr = new Date(now.getTime() - 4*60*60*1000);
+    histSelectedDate = pr.toISOString().split('T')[0];
+  }
+  const picker = document.getElementById('hist-date-picker');
+  if(picker) picker.value = histSelectedDate;
+  await histLoadDate(histSelectedDate);
+}
+
+function histGoToday(){
+  const now = new Date();
+  const pr = new Date(now.getTime() - 4*60*60*1000);
+  histSelectedDate = pr.toISOString().split('T')[0];
+  document.getElementById('hist-date-picker').value = histSelectedDate;
+  histLoadDate(histSelectedDate);
+}
+
+function histPickDate(val){
+  if(!val) return;
+  histSelectedDate = val;
+  histLoadDate(val);
+}
+
+function histChangeDate(delta){
+  if(!histSelectedDate) return;
+  const d = new Date(histSelectedDate + 'T12:00:00');
+  d.setDate(d.getDate() + delta);
+  histSelectedDate = d.toISOString().split('T')[0];
+  document.getElementById('hist-date-picker').value = histSelectedDate;
+  // Disable next btn if date is today or future
+  const today = new Date(new Date().getTime() - 4*60*60*1000).toISOString().split('T')[0];
+  const nextBtn = document.getElementById('hist-next-btn');
+  if(nextBtn) nextBtn.disabled = histSelectedDate >= today;
+  histLoadDate(histSelectedDate);
+}
+
+async function histLoadDate(dateStr){
+  // Update label
+  const d = new Date(dateStr + 'T12:00:00');
+  const today = new Date(new Date().getTime() - 4*60*60*1000).toISOString().split('T')[0];
+  const isToday = dateStr === today;
+  document.getElementById('hist-date-label').textContent =
+    isToday ? 'Hoy — ' + d.toLocaleDateString('es-PR',{weekday:'long',month:'long',day:'numeric'})
+            : d.toLocaleDateString('es-PR',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+  // Disable next btn if today
+  const nextBtn = document.getElementById('hist-next-btn');
+  if(nextBtn) nextBtn.disabled = isToday;
+
+  // Loading
   document.getElementById('hist-list').innerHTML = `
     <div style="text-align:center;padding:48px 24px;color:var(--text-dim)">
       <div style="font-size:32px;margin-bottom:12px">⏳</div>
-      <div style="font-family:var(--mono);font-size:12px">Cargando registros...</div>
+      <div style="font-size:12px">Cargando registros...</div>
     </div>`;
 
-  // Load today's records from Supabase
-  const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
-  const tomorrow = new Date(now.getTime() + 86400000).toISOString().split('T')[0];
+  // Query Supabase — dates stored as UTC, PR is UTC-4
+  // So for PR date YYYY-MM-DD, UTC range is YYYY-MM-DDT04:00:00 to next day T04:00:00
+  const start = dateStr + 'T04:00:00';
+  const nextDay = new Date(dateStr + 'T12:00:00');
+  nextDay.setDate(nextDay.getDate() + 1);
+  const end = nextDay.toISOString().split('T')[0] + 'T04:00:00';
 
   const data = await supaFetch(
-    `/rest/v1/battery_events?cliente_id=eq.1&event_datetime=gte.${today}T00:00:00&event_datetime=lt.${tomorrow}T00:00:00&order=event_datetime.asc&select=*`
+    `/rest/v1/battery_events?cliente_id=eq.1&event_datetime=gte.${start}&event_datetime=lt.${end}&order=event_datetime.asc&select=*`
   );
 
   if(data && data.length > 0){
     historialRecords = data.map(r => ({
-      type: r.event_type === 'retorno_servicio' ? 'retorno' : r.event_type,
+      type: r.event_type === 'retorno_servicio' ? 'retorno' : (r.event_type || 'cambio'),
       equip: r.equipment_id || r.battery_out || '—',
       detail: buildHistDetail(r),
       operator: r.operator_name || '—',
-      time: new Date(r.event_datetime).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true})
+      time: new Date(new Date(r.event_datetime).getTime() - 4*60*60*1000)
+              .toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit',hour12:true})
     }));
-  } else if(data && data.length === 0){
+  } else {
     historialRecords = [];
   }
-  // Fall back to in-memory if DB unreachable
   renderHistorial();
 }
 
@@ -1411,6 +1543,23 @@ async function initApp(){
 
 // Run on load
 window.addEventListener('DOMContentLoaded', initApp);
+
+// ── INACTIVIDAD 5 MINUTOS ─────────────────────────────────────
+let inactivityTimer;
+function resetInactivityTimer(){
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(()=>{
+    sessionOperator = '';
+    goHome();
+    // show PIN screen
+    const ps = document.getElementById('pin-screen');
+    if(ps){ document.querySelectorAll('.main,.result-screen').forEach(s=>s.style.display='none'); ps.style.display='flex'; }
+  }, 5 * 60 * 1000);
+}
+['touchstart','click','keydown','scroll'].forEach(evt=>{
+  document.addEventListener(evt, resetInactivityTimer, {passive:true});
+});
+resetInactivityTimer();
 
 
 // ── INVENTARIO ────────────────────────────────────────────────
