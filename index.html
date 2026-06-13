@@ -262,6 +262,12 @@
       <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--purple)">INVENTARIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Agregar o dar de baja baterías</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
+    <!-- Lavado - full width -->
+    <div onclick="openModule('lavado')" style="grid-column:1/-1;grid-row:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:28px;flex-shrink:0">🧹</div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">LAVADO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías lavadas</div></div>
+      <div style="color:var(--text-dim);font-size:20px">›</div>
+    </div>
   </div>
   <div class="home-recent">
     <div class="home-recent-title">Últimos registros</div>
@@ -344,13 +350,6 @@
       <div class="toggle-grid toggle-grid-2">
         <div class="toggle-btn" id="c-water-add" onclick="cSetWater('add')"><span class="tbicon">➕</span><span class="tblabel">AGREGADO</span><span class="tbsub">Se añadió agua</span></div>
         <div class="toggle-btn" id="c-water-ok" onclick="cSetWater('ok')"><span class="tbicon">✅</span><span class="tblabel">ESTÁ OK</span><span class="tbsub">Nivel correcto</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <p class="section-title" style="margin-bottom:12px">🧹 Lavado de batería</p>
-      <div class="toggle-grid toggle-grid-2">
-        <div class="toggle-btn" id="c-wash-si" onclick="cSetWash('Y')"><span class="tbicon">🧽</span><span class="tblabel">SÍ LAVÓ</span></div>
-        <div class="toggle-btn" id="c-wash-no" onclick="cSetWash('N')"><span class="tbicon">⏭</span><span class="tblabel">NO LAVÓ</span></div>
       </div>
     </div>
     <div class="btn-row"><button class="submit-btn ghost" style="flex:0.4" onclick="cGoStep(2)">← ATRÁS</button><button class="submit-btn green" id="c-btn3" onclick="cGoStep(4)" disabled>CONTINUAR →</button></div>
@@ -612,6 +611,21 @@
   <button class="home-btn" onclick="goHome()">← VOLVER AL INICIO</button>
 </div>
 
+<!-- MÓDULO LAVADO -->
+<main class="main" id="lavado-screen" style="display:none">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div>
+      <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">🧹 LAVADO DE BATERÍAS</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Marca cuando una batería fue lavada</div>
+    </div>
+  </div>
+  <div class="field-group" style="margin-bottom:14px">
+    <input type="text" id="lav-search" placeholder="Buscar batería (ej. B143)" oninput="lavFilter(this.value)" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;color:var(--text);font-family:var(--mono);font-size:14px;box-sizing:border-box">
+  </div>
+  <div id="lav-list"></div>
+</main>
+
+
 <!-- HISTORIAL SCREEN -->
 <div class="main" id="historial-screen" style="display:none">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
@@ -765,9 +779,10 @@ function populateSel(id,items,ph){const s=document.getElementById(id);s.innerHTM
 populateSel('c-equipo-sel',EQUIPOS,'— Seleccionar equipo —');
 populateSel('r-bat-sel',BATTERIES,'— Seleccionar batería —');
 
-function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
+function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
 function openModule(mod){document.getElementById('back-btn').classList.add('show');document.getElementById('progress-fill').style.width='0%';if(mod==='cambio'){showScreen('cambio-screen');cGoStep(1,true);}if(mod==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}if(mod==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}if(mod==='historial'){showScreen('historial-screen');openHistorial();}
-  if(mod==='inventario'){showScreen('inventario-screen');openInventario();}}
+  if(mod==='inventario'){showScreen('inventario-screen');openInventario();}
+  if(mod==='lavado'){showScreen('lavado-screen');openLavado();}}
 function goHome(){document.getElementById('back-btn').classList.remove('show');document.getElementById('progress-fill').style.width='0%';showScreen('home-screen');window.scrollTo({top:0,behavior:'smooth'});}
 
 // CAMBIO
@@ -836,12 +851,102 @@ function cCheckStep1(){
 function cOnBatIn(val){cS.batIn=val;document.getElementById('c-batin-sel').classList.toggle('filled',!!val);cCheckStep2();}
 function cCheckStep2(){document.getElementById('c-btn2').disabled=!cS.batIn;}
 function cSetWater(val){cS.water=val;document.getElementById('c-water-add').className='toggle-btn'+(val==='add'?' sel-blue':'');document.getElementById('c-water-ok').className='toggle-btn'+(val==='ok'?' sel-green':'');cCheckStep3();}
-function cSetWash(val){cS.wash=val;document.getElementById('c-wash-si').className='toggle-btn'+(val==='Y'?' sel-green':'');document.getElementById('c-wash-no').className='toggle-btn'+(val==='N'?' sel-dim':'');cCheckStep3();}
-function cCheckStep3(){document.getElementById('c-btn3').disabled=!(cS.water&&cS.wash);}
+function cCheckStep3(){document.getElementById('c-btn3').disabled=!cS.water;}
 function cCheckStep4(){cS.operator=getOperator();const opEl=document.getElementById('c-operator-display');if(opEl)opEl.textContent=cS.operator||'—';const ok=!!cS.operator;document.getElementById('c-btn-submit').disabled=!ok;if(ok)cBuildSum();document.getElementById('c-summary').style.display=ok?'block':'none';}
-function cBuildSum(){const wl=cS.water==='add'?'➕ Agregado':'✅ OK';const wsh=cS.wash==='Y'?'🧽 Sí':'⏭ No';document.getElementById('c-summary-content').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Lavado</span><span>${wsh}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div>`;}
-function cSubmit(){const now=new Date();const wl=cS.water==='add'?'➕ Agua agregada':'✅ Nivel OK';const wsh=cS.wash==='Y'?'🧽 Sí lavó':'⏭ No lavó';const cRecord={cliente_id:1,event_type:'cambio',event_datetime:now.toISOString(),equipment_id:cS.equipo,battery_out:cS.batOut,battery_in:cS.batIn,hourmeter:parseInt(cS.hourmeter),add_water:cS.water==='add'?'Y':'N',battery_wash:cS.wash,operator_name:getOperator(),notes:document.getElementById('c-notes').value};saveEvent(cRecord);updateBatteryStatus(cS.batIn,'en_equipo',cS.equipo);updateBatteryStatus(cS.batOut,'inventario',null);addRecent('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`);addToHistorial('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`,getOperator()||'—');document.getElementById('cambio-result-meta').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Lavado</span><span>${wsh}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';showScreen('cambio-result');}
-function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',wash:'',operator:'',notes:''};['c-equipo-sel','c-batin-sel','c-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});document.getElementById('c-hourmeter').value='';document.getElementById('c-notes').value='';document.getElementById('c-bat-out-section').style.display='none';['c-water-add','c-water-ok','c-wash-si','c-wash-no'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
+function cBuildSum(){const wl=cS.water==='add'?'➕ Agregado':'✅ OK';document.getElementById('c-summary-content').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div>`;}
+function cSubmit(){const now=new Date();const wl=cS.water==='add'?'➕ Agua agregada':'✅ Nivel OK';const cRecord={cliente_id:1,event_type:'cambio',event_datetime:now.toISOString(),equipment_id:cS.equipo,battery_out:cS.batOut,battery_in:cS.batIn,hourmeter:parseInt(cS.hourmeter),add_water:cS.water==='add'?'Y':'N',operator_name:getOperator(),notes:document.getElementById('c-notes').value};saveEvent(cRecord);updateBatteryStatus(cS.batIn,'en_equipo',cS.equipo);updateBatteryStatus(cS.batOut,'inventario',null);incrementExtractionCount(cS.batOut);addRecent('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`);addToHistorial('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`,getOperator()||'—');document.getElementById('cambio-result-meta').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';showScreen('cambio-result');}
+
+// ── LAVADO ─────────────────────────────────────────────────────
+let lavList = [];
+
+async function openLavado(){
+  document.getElementById('lav-search').value = '';
+  document.getElementById('lav-list').innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-dim);font-family:var(--mono);font-size:12px">Cargando…</div>';
+  // Get last wash per battery
+  const washData = await supaFetch('/rest/v1/battery_wash_log?select=battery_id,wash_datetime&order=wash_datetime.desc');
+  const lastWash = {};
+  if(washData){
+    washData.forEach(w=>{ if(!lastWash[w.battery_id]) lastWash[w.battery_id] = w.wash_datetime; });
+  }
+  lavList = BATTERIES.map(b=>({battery_id:b, last_wash: lastWash[b]||null}));
+  lavRender(lavList);
+}
+
+function lavFilter(q){
+  q = (q||'').trim().toUpperCase();
+  const filtered = q ? lavList.filter(x=>x.battery_id.toUpperCase().includes(q)) : lavList;
+  lavRender(filtered);
+}
+
+function lavRender(list){
+  const cont = document.getElementById('lav-list');
+  if(!list.length){
+    cont.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-dim);font-family:var(--mono);font-size:12px">Sin resultados</div>';
+    return;
+  }
+  cont.innerHTML = list.map(item=>{
+    const today = new Date().toDateString();
+    const washedToday = item.last_wash && new Date(item.last_wash).toDateString() === today;
+    const lastLabel = item.last_wash ? new Date(item.last_wash).toLocaleString('es-PR',{dateStyle:'short',timeStyle:'short'}) : 'Sin registro';
+    return `<div class="card" style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px">
+      <div>
+        <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">${item.battery_id}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Último lavado: ${lastLabel}</div>
+      </div>
+      <button onclick="lavMark('${item.battery_id}')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:8px 14px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
+    </div>`;
+  }).join('');
+}
+
+async function lavMark(batteryId){
+  const now = new Date().toISOString();
+  const result = await supaFetch('/rest/v1/battery_wash_log', 'POST', {
+    battery_id: batteryId,
+    wash_datetime: now,
+    operator_name: getOperator()
+  });
+  if(result){
+    showToast(`✓ ${batteryId} marcada como lavada`);
+  } else {
+    showToast('⚠️ Error al guardar');
+  }
+  const item = lavList.find(x=>x.battery_id===batteryId);
+  if(item) item.last_wash = now;
+  lavFilter(document.getElementById('lav-search').value);
+}
+
+
+async function incrementExtractionCount(batteryId){
+  if(!batteryId) return;
+  const data = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batteryId}&select=extraction_count`);
+  let current = (data && data[0] && data[0].extraction_count) ? data[0].extraction_count : 0;
+  let next = current + 1;
+  let needsEqualizing = false;
+  if(next >= 5){ next = 0; needsEqualizing = true; }
+  await fetch(SUPA_URL + `/rest/v1/battery_list?battery_id=eq.${batteryId}`, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({extraction_count: next})
+  });
+  if(needsEqualizing){
+    await fetch(SUPA_URL + '/rest/v1/battery_status', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({battery_id: batteryId, status: 'requiere_equalizacion', equipment_id: null, updated_at: new Date().toISOString()})
+    });
+  }
+}
+function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',operator:'',notes:''};['c-equipo-sel','c-batin-sel','c-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});document.getElementById('c-hourmeter').value='';document.getElementById('c-notes').value='';document.getElementById('c-bat-out-section').style.display='none';['c-water-add','c-water-ok'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
 
 // RETIRO
 const MCOL={servicio:'sel-orange',scrap:'sel-red',garantia:'sel-purple'};
