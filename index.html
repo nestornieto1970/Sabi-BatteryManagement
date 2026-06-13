@@ -307,12 +307,15 @@
     </div>
     <div id="c-bat-out-section" style="display:none">
       <p class="section-title">Batería en el equipo ahora (OUT)</p>
-      <div class="battery-out-box" id="c-bat-out-box">
+      <div class="battery-out-box confirmed" id="c-bat-out-box">
         <div class="battery-icon">🔋</div>
         <div><div class="battery-id" id="c-bat-out-id">---</div><div class="battery-sub">Registrada en el sistema</div></div>
-        <button class="confirm-badge pending" id="c-confirm-badge" onclick="cConfirmBat()">CONFIRMAR</button>
       </div>
-      <div id="c-bat-out-wrong" style="display:none;margin-top:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;margin-bottom:4px">
+        <button id="c-confirm-badge" onclick="cConfirmBat()" style="padding:14px;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;border:2px solid var(--accent);background:var(--accent-dim);color:var(--accent)">✓ CONFIRMAR</button>
+        <button id="c-bat-out-wrong-btn" onclick="cShowWrongBat()" style="padding:14px;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;border:2px solid var(--warning);background:var(--warning-dim);color:var(--warning)">⚠️ NO ES ESTA</button>
+      </div>
+      <div id="c-bat-out-wrong" style="display:none;margin-top:4px">
         <p class="section-title" style="margin-bottom:8px;color:var(--warning)">⚠️ Selecciona la batería correcta</p>
         <div class="select-wrap">
           <select id="c-bat-out-fix" onchange="cFixBatOut(this.value)" style="width:100%">
@@ -859,12 +862,14 @@ function cOnEquipo(val){
   if(val){
     const b=LAST_BAT[val]||null;
     document.getElementById('c-bat-out-section').style.display='block';
-    document.getElementById('c-bat-out-wrong-btn').style.display='none';
     document.getElementById('c-bat-out-wrong').style.display='none';
     document.getElementById('c-bat-out-id').textContent=b||'Sin registro';
     cS.batOut=b||'';
-    document.getElementById('c-confirm-badge').className='confirm-badge pending';
-    document.getElementById('c-confirm-badge').textContent='CONFIRMAR';
+    // Reset confirm button
+    const badge=document.getElementById('c-confirm-badge');
+    badge.style.background='var(--accent-dim)';badge.style.color='var(--accent)';badge.style.borderColor='var(--accent)';badge.textContent='✓ CONFIRMAR';badge.disabled=false;
+    const wrongBtn=document.getElementById('c-bat-out-wrong-btn');
+    wrongBtn.style.display='block';
     document.getElementById('c-bat-out-box').className='battery-out-box';
     // Show hourmeter with suggestions
     document.getElementById('c-hourm-section').style.display='block';
@@ -1058,7 +1063,7 @@ function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter
   const badge=document.getElementById('c-confirm-badge');
   if(badge){badge.style.background='var(--accent-dim)';badge.style.color='var(--accent)';badge.style.borderColor='var(--accent)';badge.textContent='✓ CONFIRMAR';badge.disabled=false;}
   const wrongBtn=document.getElementById('c-bat-out-wrong-btn');
-  if(wrongBtn) wrongBtn.style.display='block';
+  if(wrongBtn){wrongBtn.style.display='block';}
   ['c-water-add','c-water-ok'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
 
 // RETIRO
