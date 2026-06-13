@@ -320,7 +320,6 @@
           </select>
         </div>
       </div>
-      <button id="c-bat-out-wrong-btn" onclick="cShowWrongBat()" style="display:none;margin-top:8px;width:100%;background:transparent;border:1px solid var(--warning);color:var(--warning);border-radius:var(--radius);padding:10px;font-family:var(--mono);font-size:11px;cursor:pointer">⚠️ NO ES CORRECTA — INDICAR CUÁL ES</button>
     </div>
     <!-- Horómetro — aparece al seleccionar equipo -->
     <div id="c-hourm-section" style="display:none;margin-bottom:14px">
@@ -468,6 +467,27 @@
     <div class="btn-row"><button class="submit-btn ghost" style="flex:0.4" onclick="rGoStep(2)">← ATRÁS</button><button class="submit-btn red" id="r-btn-submit" onclick="rSubmit()" disabled>🚨 CONFIRMAR RETIRO</button></div>
   </div>
 </main>
+
+<!-- ALERTA EQUALIZACIÓN -->
+<div class="result-screen" id="equalizacion-alert">
+  <div style="font-size:56px;margin-bottom:8px">⚡</div>
+  <div style="font-size:20px;font-weight:800;color:var(--warning);text-align:center;margin-bottom:6px">REQUIERE EQUALIZACIÓN</div>
+  <div style="font-size:15px;font-weight:700;color:var(--text);text-align:center;margin-bottom:6px" id="eq-bat-label">Batería —</div>
+  <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:20px;line-height:1.6">Conecte esta batería en modo <strong>Equalización</strong></p>
+  <div style="background:var(--warning-dim);border:2px solid var(--warning);border-radius:var(--radius-lg);padding:16px 20px;width:100%;margin-bottom:24px">
+    <div style="font-size:11px;font-weight:700;color:var(--warning);margin-bottom:12px;text-align:center">SECUENCIA DE CARGA</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center">
+      <span style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 10px;font-size:12px;font-weight:600;color:var(--text)">🔌 Charging</span>
+      <span style="color:var(--text-muted)">→</span>
+      <span style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 10px;font-size:12px;font-weight:600;color:var(--text)">❄️ Cooling</span>
+      <span style="color:var(--text-muted)">→</span>
+      <span style="background:var(--warning-dim);border:2px solid var(--warning);border-radius:20px;padding:6px 10px;font-size:12px;font-weight:800;color:var(--warning)">⚡ Equalizing (3 hrs)</span>
+      <span style="color:var(--text-muted)">→</span>
+      <span style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 10px;font-size:12px;font-weight:600;color:var(--text)">✅ Ready</span>
+    </div>
+  </div>
+  <button onclick="showEqDone()" style="width:100%;background:var(--warning);color:#fff;border:none;border-radius:var(--radius-lg);padding:20px;font-size:15px;font-weight:700;cursor:pointer">ENTENDIDO → CONTINUAR</button>
+</div>
 
 <!-- RESULT CAMBIO -->
 <div class="result-screen" id="cambio-result">
@@ -819,7 +839,7 @@ function populateSel(id,items,ph){const s=document.getElementById(id);s.innerHTM
 populateSel('c-equipo-sel',EQUIPOS,'— Seleccionar equipo —');
 populateSel('r-bat-sel',BATTERIES,'— Seleccionar batería —');
 
-function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','servicio-screen','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
+function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','servicio-screen','equalizacion-alert','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
 function openModule(mod){document.getElementById('back-btn').classList.add('show');document.getElementById('progress-fill').style.width='0%';if(mod==='cambio'){showScreen('cambio-screen');cGoStep(1,true);}if(mod==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}if(mod==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}if(mod==='historial'){showScreen('historial-screen');openHistorial();}
   if(mod==='inventario'){showScreen('inventario-screen');openInventario();}
   if(mod==='lavado'){showScreen('lavado-screen');openLavado();}
@@ -929,7 +949,14 @@ function cSetWater(val){cS.water=val;document.getElementById('c-water-add').clas
 function cCheckStep3(){document.getElementById('c-btn3').disabled=!cS.water;}
 function cCheckStep4(){cS.operator=getOperator();const opEl=document.getElementById('c-operator-display');if(opEl)opEl.textContent=cS.operator||'—';const ok=!!cS.operator;document.getElementById('c-btn-submit').disabled=!ok;if(ok)cBuildSum();document.getElementById('c-summary').style.display=ok?'block':'none';}
 function cBuildSum(){const wl=cS.water==='add'?'➕ Agregado':'✅ OK';document.getElementById('c-summary-content').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div>`;}
-function cSubmit(){const now=new Date();const wl=cS.water==='add'?'➕ Agua agregada':'✅ Nivel OK';const cRecord={cliente_id:1,event_type:'cambio',event_datetime:now.toISOString(),equipment_id:cS.equipo,battery_out:cS.batOut,battery_in:cS.batIn,hourmeter:parseInt(cS.hourmeter),add_water:cS.water==='add'?'Y':'N',operator_name:getOperator(),notes:document.getElementById('c-notes').value};saveEvent(cRecord);updateBatteryStatus(cS.batIn,'en_equipo',cS.equipo);updateBatteryStatus(cS.batOut,'inventario',null);incrementExtractionCount(cS.batOut);addRecent('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`);addToHistorial('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`,getOperator()||'—');document.getElementById('cambio-result-meta').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';showScreen('cambio-result');}
+function cSubmit(){const now=new Date();const wl=cS.water==='add'?'➕ Agua agregada':'✅ Nivel OK';const cRecord={cliente_id:1,event_type:'cambio',event_datetime:now.toISOString(),equipment_id:cS.equipo,battery_out:cS.batOut,battery_in:cS.batIn,hourmeter:parseInt(cS.hourmeter),add_water:cS.water==='add'?'Y':'N',operator_name:getOperator(),notes:document.getElementById('c-notes').value};saveEvent(cRecord);updateBatteryStatus(cS.batIn,'en_equipo',cS.equipo);updateBatteryStatus(cS.batOut,'inventario',null);
+  addRecent('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`);addToHistorial('cambio',cS.equipo,`${cS.batOut} → ${cS.batIn} · ${cS.hourmeter} hrs`,getOperator()||'—');document.getElementById('cambio-result-meta').innerHTML=`<div class="meta-row"><span>Equipo</span><span>${cS.equipo}</span></div><div class="meta-row"><span>OUT → IN</span><span>${cS.batOut} → ${cS.batIn}</span></div><div class="meta-row"><span>Horómetro</span><span>${cS.hourmeter} hrs</span></div><div class="meta-row"><span>Agua</span><span>${wl}</span></div><div class="meta-row"><span>Operador</span><span>${cS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';
+  incrementExtractionCount(cS.batOut).then(needsEq=>{
+    if(needsEq){document.getElementById('eq-bat-label').textContent='Batería '+cS.batOut;showScreen('equalizacion-alert');}
+    else{showScreen('cambio-result');}
+  });
+}
+function showEqDone(){showScreen('cambio-result');}
 
 // ── LAVADO ─────────────────────────────────────────────────────
 let lavList = [];
@@ -996,7 +1023,7 @@ async function lavMark(batteryId){
 
 
 async function incrementExtractionCount(batteryId){
-  if(!batteryId) return;
+  if(!batteryId) return false;
   const data = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batteryId}&select=extraction_count`);
   let current = (data && data[0] && data[0].extraction_count) ? data[0].extraction_count : 0;
   let next = current + 1;
@@ -1024,8 +1051,15 @@ async function incrementExtractionCount(batteryId){
       body: JSON.stringify({battery_id: batteryId, status: 'requiere_equalizacion', equipment_id: null, updated_at: new Date().toISOString()})
     });
   }
+  return needsEqualizing;
 }
-function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',operator:'',notes:''};['c-equipo-sel','c-batin-sel','c-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});document.getElementById('c-hourmeter').value='';document.getElementById('c-notes').value='';document.getElementById('c-bat-out-section').style.display='none';['c-water-add','c-water-ok'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
+function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',operator:'',notes:''};['c-equipo-sel','c-batin-sel','c-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});document.getElementById('c-hourmeter').value='';document.getElementById('c-notes').value='';document.getElementById('c-bat-out-section').style.display='none';
+  document.getElementById('c-bat-out-wrong').style.display='none';
+  const badge=document.getElementById('c-confirm-badge');
+  if(badge){badge.style.background='var(--accent-dim)';badge.style.color='var(--accent)';badge.style.borderColor='var(--accent)';badge.textContent='✓ CONFIRMAR';badge.disabled=false;}
+  const wrongBtn=document.getElementById('c-bat-out-wrong-btn');
+  if(wrongBtn) wrongBtn.style.display='block';
+  ['c-water-add','c-water-ok'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
 
 // RETIRO
 const MCOL={servicio:'sel-orange',scrap:'sel-red',garantia:'sel-purple'};
