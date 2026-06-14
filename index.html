@@ -1411,7 +1411,7 @@ function logout(){
 
 function getOperator(){ return sessionOperator; }
 function getOperatorRole(){ return sessionOperatorObj ? (sessionOperatorObj.role || 'Operador') : 'Operador'; }
-function isSupervisorUser(){ return getOperatorRole() === 'Supervisor'; }
+function isSupervisorUser(){ const r = getOperatorRole(); return r === 'Supervisor' || r === 'Admin'; }
 
 // ── TOAST NOTIFICATION ────────────────────────────────────────
 function showToast(msg){
@@ -1727,11 +1727,12 @@ function openInventario(){
 function renderOperadoresList(){
   const list = document.getElementById('inv-op-list');
   if(!list) return;
-  if(OPERATORS.length === 0){
+  const visible = OPERATORS.filter(op => op.role !== 'Admin');
+  if(visible.length === 0){
     list.innerHTML = '<div style="font-size:13px;color:var(--text-muted)">No hay operadores activos.</div>';
     return;
   }
-  list.innerHTML = OPERATORS.map(op => `
+  list.innerHTML = visible.map(op => `
     <div class="card" style="display:flex;align-items:center;gap:12px;padding:12px 14px">
       <div style="font-size:22px">${op.role==='Supervisor'?'🛡️':'👷'}</div>
       <div style="flex:1">
