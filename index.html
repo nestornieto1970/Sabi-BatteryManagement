@@ -689,7 +689,7 @@
       </div>
       <button onclick="invAddOperador()"
         style="width:100%;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-bottom:16px">
-        ➕ AGREGAR OPERADOR (PIN inicial 1234)
+        ➕ AGREGAR OPERADOR
       </button>
 
       <p class="section-title">Operadores activos</p>
@@ -1827,11 +1827,19 @@ async function invAddOperador(){
   const name = document.getElementById('inv-op-name').value.trim();
   const role = document.getElementById('inv-op-role').value;
   if(!name){ showToast('⚠️ Escribe el nombre del operador'); return; }
+  // Generar un PIN provisional ÚNICO de 4 dígitos (no debe repetir ninguno existente)
+  const usados = OPERATORS.map(o => String(o.pin));
+  let nuevoPin = '';
+  for(let i = 0; i < 50; i++){
+    const candidato = String(Math.floor(1000 + Math.random() * 9000));
+    if(!usados.includes(candidato)){ nuevoPin = candidato; break; }
+  }
+  if(!nuevoPin){ showToast('❌ No se pudo generar un PIN único'); return; }
   const ok = await supaFetch('/rest/v1/operators', 'POST', {
-    cliente_id: 1, name, pin: '1234', role, active: true, pin_changed: false
+    cliente_id: 1, name, pin: nuevoPin, role, active: true, pin_changed: false
   });
   if(ok){
-    showToast('✅ Operador agregado — PIN inicial 1234');
+    alert('✅ Operador "' + name + '" agregado.\n\nPIN provisional: ' + nuevoPin + '\n\nEntrégaselo al operador. La app le pedirá cambiarlo en su primer acceso.');
     document.getElementById('inv-op-name').value = '';
     await loadOperators();
     renderOperadoresList();
