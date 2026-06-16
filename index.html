@@ -888,17 +888,6 @@
 <script>
 const EQUIPOS=['F-27','F-34','F-39','F-41','F-42','F-43','F-46','F-47','F-49','F-51','F-52','F-53','F-54','F-55','F-56','F-57','F-58','F-59','F-60','F-61','F-62','OP-1','OP-2','PE-01','PJ-65','PJ-69','PJ-80','PJ-81','PJ-85','PJ-86','PJ-89','PJ-90','PJ-91','PJ-92','PJ-93','PJ-94','PJ-95','PJ-96','PJ-97','PJ-98','PJ-99','PJ-100','PJ-101','PJ-102','PJ-103','PJ-104','PJ-106'];
 const BATTERIES=['B02','B18','B19','B42','B43','B56','B57','B58','B63','B97','B98','B99','B100','B103','B105','B107','B108','B109','B110','B111','B112','B113','B114','B115','B116','B117','B118','B119','B120','B121','B122','B123','B124','B125','B126','B127','B128','B129','B130','B131','B132','B133','B134','B135','B136','B137','B138','B139','B140','B141','B143','B144','B145','B146','B147','B148','B149','B150','B151','B152','B153','B154','B155','B156','B157','B158','B159','B160','B161','B162','B163','B164','B165','B166','B167','B168','B169','B170','B171','B172','B173','B174','B175','B176','B177','B178','B179','B181','B182','B183','B184','B185','B186','B187'];
-const LAST_HOURMETER={
-  'F-27':2841,'F-34':3102,'F-39':4567,'F-41':1983,'F-42':2234,'F-43':3891,
-  'F-46':2109,'F-47':4432,'F-49':1876,'F-51':3654,'F-52':2987,'F-53':2934,
-  'F-54':1654,'F-55':3210,'F-56':4123,'F-57':2765,'F-58':3432,'F-59':1987,
-  'F-60':2543,'F-61':3876,'F-62':4210,'OP-1':1543,'OP-2':2876,'PE-01':3109,
-  'PJ-65':2432,'PJ-69':1876,'PJ-80':3654,'PJ-81':2109,'PJ-85':4321,'PJ-86':3098,
-  'PJ-89':1765,'PJ-90':2543,'PJ-91':4190,'PJ-92':3321,'PJ-93':2876,'PJ-94':1654,
-  'PJ-95':3432,'PJ-96':2109,'PJ-97':4567,'PJ-98':1987,'PJ-99':3210,'PJ-100':2654,
-  'PJ-101':1432,'PJ-102':3876,'PJ-103':2543,'PJ-104':4123,'PJ-106':1987
-};
-
 const LAST_BAT={'F-27':'B02','F-34':'B117','F-39':'B165','F-41':'B135','F-42':'B158','F-43':'B160','F-46':'B153','F-47':'B181','F-49':'B163','F-51':'B161','F-52':'B150','F-53':'B146','F-54':'B134','F-55':'B126','F-56':'B131','F-57':'B151','F-58':'B147','F-59':'B145','F-60':'B183','F-61':'B144','F-62':'B184','OP-1':'B178','OP-2':'B63','PE-01':'B120','PJ-65':'B98','PJ-69':'B141','PJ-80':'B56','PJ-81':'B176','PJ-85':'B109','PJ-86':'B100','PJ-89':'B166','PJ-90':'B168','PJ-91':'B138','PJ-92':'B133','PJ-93':'B167','PJ-94':'B169','PJ-95':'B99','PJ-96':'B177','PJ-97':'B187','PJ-98':'B129','PJ-99':'B175','PJ-100':'B43','PJ-101':'B57','PJ-102':'B42','PJ-103':'B186','PJ-104':'B173','PJ-106':'B136'};
 const BAT2EQ={};Object.entries(LAST_BAT).forEach(([eq,b])=>{BAT2EQ[b]=eq;});
 let cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',wash:'',operator:'',notes:''};
@@ -942,23 +931,33 @@ function cOnEquipo(val){
     const wrongBtn=document.getElementById('c-bat-out-wrong-btn');
     wrongBtn.style.display='block';
     document.getElementById('c-bat-out-box').className='battery-out-box';
-    // Show hourmeter with suggestions
+    // Show hourmeter — leer el último horómetro REAL desde la base de datos
     document.getElementById('c-hourm-section').style.display='block';
-    const prev = LAST_HOURMETER[val]||null;
     const prevEl = document.getElementById('c-hourm-prev');
-    if(prev){
-      prevEl.textContent='Último registrado: '+prev+' hrs';
-      cBuildHourmSuggestions(prev);
-    } else {
-      prevEl.textContent='Sin horómetro previo registrado';
-      document.getElementById('c-hourm-suggestions').style.display='none';
-    }
+    prevEl.textContent='Buscando último horómetro…';
+    document.getElementById('c-hourm-suggestions').style.display='none';
     document.getElementById('c-hourmeter').value='';
+    fetchLastHourmeter(val).then(prev=>{
+      if(cS.equipo!==val) return; // el usuario cambió de equipo mientras cargaba
+      if(prev!=null){
+        prevEl.textContent='Último registrado: '+prev+' hrs';
+        cBuildHourmSuggestions(prev);
+      } else {
+        prevEl.textContent='Sin horómetro previo registrado';
+        document.getElementById('c-hourm-suggestions').style.display='none';
+      }
+    });
   } else {
     document.getElementById('c-bat-out-section').style.display='none';
     document.getElementById('c-hourm-section').style.display='none';
   }
   cCheckStep1();
+}
+
+async function fetchLastHourmeter(eq){
+  const data = await supaFetch('/rest/v1/battery_events?cliente_id=eq.1&equipment_id=eq.'+encodeURIComponent(eq)+'&hourmeter=not.is.null&order=event_datetime.desc&limit=1&select=hourmeter');
+  if(data && data.length && data[0].hourmeter!=null) return data[0].hourmeter;
+  return null;
 }
 
 function cBuildHourmSuggestions(prev){
