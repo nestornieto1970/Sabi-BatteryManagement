@@ -256,22 +256,21 @@
   <h1>Buen día 👋</h1><p id="home-date-sub">Cargando…</p>
 </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-    <!-- Cambio -->
-    <div onclick="openModule('cambio')" style="background:var(--surface);border:1px solid var(--accent-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
+    <!-- Cambio (izquierda, alto = Lavado + Agua) -->
+    <div onclick="openModule('cambio')" style="grid-column:1;grid-row:1 / span 2;background:var(--surface);border:1px solid var(--accent-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:12px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">NORMAL</span>
-      <div style="font-size:32px">🔄</div>
-      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)">CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Intercambio rutinario de baterías</div></div>
+      <div style="font-size:38px">🔄</div>
+      <div><div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent)">CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Intercambio rutinario de baterías</div></div>
     </div>
-    <!-- Lavado -->
-    <div onclick="openModule('lavado')" style="background:var(--surface);border:1px solid var(--blue-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
+    <!-- Lavado (arriba-derecha) -->
+    <div onclick="openModule('lavado')" style="grid-column:2;grid-row:1;background:var(--surface);border:1px solid var(--blue-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
       <div style="font-size:32px">🚿</div>
       <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--blue)">LAVADO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías lavadas</div></div>
     </div>
-    <!-- Agua - full width -->
-    <div onclick="openModule('agua')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--cyan-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
-      <div style="font-size:28px;flex-shrink:0">💧</div>
-      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan)">AGUA</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías con agua agregada</div></div>
-      <div style="color:var(--text-dim);font-size:20px">›</div>
+    <!-- Agua (abajo-derecha) -->
+    <div onclick="openModule('agua')" style="grid-column:2;grid-row:2;background:var(--surface);border:1px solid var(--cyan-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:32px">💧</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan)">AGUA</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías con agua agregada</div></div>
     </div>
     <!-- Servicio Baterías - full width -->
     <div onclick="openModule('servicio')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--danger-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
@@ -735,6 +734,9 @@
       <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">💧 AGUA DE BATERÍAS</div>
       <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Marca cuando se le agregó agua a una batería</div>
     </div>
+  </div>
+  <div style="background:#fee2e2;border:1px solid #ef4444;border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;color:#b91c1c;font-size:13px;line-height:1.45">
+    <strong>Nota Importante:</strong> De ser necesario, agregue agua de-ionizada después de que la batería esté <strong>CARGADA</strong>.
   </div>
   <div class="field-group" style="margin-bottom:14px">
     <label class="field-label">Seleccionar batería</label>
