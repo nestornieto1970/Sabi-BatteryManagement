@@ -1592,8 +1592,8 @@ async function histLoadDate(dateStr){
       equip: r.equipment_id || r.battery_out || '—',
       detail: buildHistDetail(r),
       operator: r.operator_name || '—',
-      time: new Date(new Date(r.event_datetime).getTime() - 4*60*60*1000)
-              .toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit',hour12:true})
+      time: new Date(r.event_datetime)
+              .toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'America/Puerto_Rico'})
     }));
   } else {
     historialRecords = [];
