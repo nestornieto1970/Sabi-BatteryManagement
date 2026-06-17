@@ -920,11 +920,16 @@ function cOnEquipo(val){
   cS.equipo=val;cS.batOut='';cS.batOutOk=false;cS.hourmeter='';
   document.getElementById('c-equipo-sel').classList.toggle('filled',!!val);
   if(val){
-    const b=LAST_BAT[val]||null;
     document.getElementById('c-bat-out-section').style.display='block';
     document.getElementById('c-bat-out-wrong').style.display='none';
-    document.getElementById('c-bat-out-id').textContent=b||'Sin registro';
-    cS.batOut=b||'';
+    document.getElementById('c-bat-out-id').textContent='Buscando…';
+    cS.batOut='';
+    // Leer la batería actual del equipo DESDE LA BASE DE DATOS
+    fetchLastBattery(val).then(b=>{
+      if(cS.equipo!==val) return; // el usuario cambió de equipo mientras cargaba
+      document.getElementById('c-bat-out-id').textContent = b || 'Sin registro';
+      cS.batOut = b || '';
+    });
     // Reset confirm button
     const badge=document.getElementById('c-confirm-badge');
     badge.style.background='var(--accent-dim)';badge.style.color='var(--accent)';badge.style.borderColor='var(--accent)';badge.textContent='✓ CONFIRMAR';badge.disabled=false;
@@ -957,6 +962,12 @@ function cOnEquipo(val){
 async function fetchLastHourmeter(eq){
   const data = await supaFetch('/rest/v1/battery_events?cliente_id=eq.1&equipment_id=eq.'+encodeURIComponent(eq)+'&hourmeter=not.is.null&order=event_datetime.desc&limit=1&select=hourmeter');
   if(data && data.length && data[0].hourmeter!=null) return data[0].hourmeter;
+  return null;
+}
+
+async function fetchLastBattery(eq){
+  const data = await supaFetch('/rest/v1/battery_events?cliente_id=eq.1&equipment_id=eq.'+encodeURIComponent(eq)+'&battery_in=not.is.null&order=event_datetime.desc&limit=1&select=battery_in');
+  if(data && data.length && data[0].battery_in) return data[0].battery_in;
   return null;
 }
 
