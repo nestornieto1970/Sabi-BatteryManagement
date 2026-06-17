@@ -1720,6 +1720,22 @@ async function loadOperators(){
 }
 
 // ── LOAD BATTERY STATUS FROM DB ───────────────────────────────
+async function loadEquipos(){
+  const data = await supaFetch('/rest/v1/equipment_list?select=equipment_id');
+  if(data && data.length){
+    const ids = data.map(r=>r.equipment_id).filter(Boolean);
+    ids.sort((a,b)=>{
+      const pa=a.replace(/[0-9].*/,''), pb=b.replace(/[0-9].*/,'');
+      if(pa!==pb) return pa<pb?-1:1;
+      return (parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0);
+    });
+    EQUIPOS.length = 0;
+    ids.forEach(id => EQUIPOS.push(id));
+    populateSel('c-equipo-sel', EQUIPOS, '— Seleccionar equipo —');
+    console.log('Equipment loaded from DB:', EQUIPOS.length);
+  }
+}
+
 async function loadBatteries(){
   const data = await supaFetch('/rest/v1/battery_list?select=battery_id');
   if(data && data.length){
@@ -1727,6 +1743,7 @@ async function loadBatteries(){
     ids.sort((a,b)=>(parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
     BATTERIES.length = 0;
     ids.forEach(id => BATTERIES.push(id));
+    populateSel('r-bat-sel', BATTERIES, '— Seleccionar batería —');
     console.log('Batteries loaded from DB:', BATTERIES.length);
   }
 }
@@ -1779,6 +1796,7 @@ async function updateBatteryStatus(batteryId, status, equipmentId=null){
 // ── INIT APP ──────────────────────────────────────────────────
 async function initApp(){
   await loadOperators();
+  await loadEquipos();
   await loadBatteries();
   await loadBatteryStatus();
   console.log('SABI app initialized ✓');
