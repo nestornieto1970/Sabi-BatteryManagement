@@ -1720,6 +1720,17 @@ async function loadOperators(){
 }
 
 // ── LOAD BATTERY STATUS FROM DB ───────────────────────────────
+async function loadBatteries(){
+  const data = await supaFetch('/rest/v1/battery_list?select=battery_id');
+  if(data && data.length){
+    const ids = data.map(r=>r.battery_id).filter(Boolean);
+    ids.sort((a,b)=>(parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
+    BATTERIES.length = 0;
+    ids.forEach(id => BATTERIES.push(id));
+    console.log('Batteries loaded from DB:', BATTERIES.length);
+  }
+}
+
 async function loadBatteryStatus(){
   const data = await supaFetch('/rest/v1/battery_status?select=battery_id,status,equipment_id');
   if(data && data.length > 0){
@@ -1768,6 +1779,7 @@ async function updateBatteryStatus(batteryId, status, equipmentId=null){
 // ── INIT APP ──────────────────────────────────────────────────
 async function initApp(){
   await loadOperators();
+  await loadBatteries();
   await loadBatteryStatus();
   console.log('SABI app initialized ✓');
 }
