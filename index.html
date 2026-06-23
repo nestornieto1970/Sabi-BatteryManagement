@@ -272,6 +272,12 @@
       <div style="font-size:32px">💧</div>
       <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan)">AGUA</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Marcar baterías con agua agregada</div></div>
     </div>
+    <!-- Corregir último cambio - full width -->
+    <div onclick="openModule('corregir')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:28px;flex-shrink:0">✏️</div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">CORREGIR CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Editar o anular tu último cambio</div></div>
+      <div style="color:var(--text-dim);font-size:20px">›</div>
+    </div>
     <!-- Servicio Baterías - full width -->
     <div onclick="openModule('servicio')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--danger-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SERVICIO</span>
@@ -285,14 +291,8 @@
       <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">HISTORIAL</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Registros del día</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
-    <!-- Corregir último cambio - full width -->
-    <div onclick="openModule('corregir')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
-      <div style="font-size:28px;flex-shrink:0">✏️</div>
-      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">CORREGIR CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Editar o anular tu último cambio</div></div>
-      <div style="color:var(--text-dim);font-size:20px">›</div>
-    </div>
     <!-- Inventario - full width -->
-    <div onclick="openModule('inventario')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--purple-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+    <div id="card-inventario" onclick="openModule('inventario')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--purple-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SUPERVISOR</span>
       <div style="font-size:28px;flex-shrink:0">⚙️</div>
       <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--purple)">INVENTARIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Equipos y Baterías · Activar / Inactivar</div></div>
@@ -410,7 +410,7 @@
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div onclick="openServicioTab('retiro')" style="background:var(--surface);border:2px solid var(--danger-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
       <div style="font-size:32px">🚨</div>
-      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--danger)">ENVIAR A SERVICIO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Retiro, scrap o garantía</div></div>
+      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--danger)">ENVIAR A SERVICIO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Retiro o scrap</div></div>
     </div>
     <div onclick="openServicioTab('retorno')" style="background:var(--surface);border:2px solid var(--orange-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
       <div style="font-size:32px">🔁</div>
@@ -449,7 +449,6 @@
     <div class="toggle-grid toggle-grid-2">
       <div class="toggle-btn" id="r-mot-servicio" onclick="rSetMotivo('servicio')"><span class="tbicon">🔧</span><span class="tblabel">SERVICIO</span><span class="tbsub">Reparación ext.</span></div>
       <div class="toggle-btn" id="r-mot-scrap" onclick="rSetMotivo('scrap')"><span class="tbicon">🗑️</span><span class="tblabel">SCRAP</span><span class="tbsub">Dar de baja</span></div>
-      <div class="toggle-btn" id="r-mot-garantia" onclick="rSetMotivo('garantia')"><span class="tbicon">📦</span><span class="tblabel">GARANTÍA</span><span class="tbsub">Reclamación</span></div>
 
     </div>
     <button class="submit-btn red" id="r-btn1" onclick="rGoStep(2)" disabled>CONTINUAR →</button>
@@ -922,13 +921,21 @@ function openModule(mod){document.getElementById('back-btn').classList.add('show
   if(mod==='lavado'){showScreen('lavado-screen');openLavado();}
   if(mod==='agua'){showScreen('agua-screen');openAgua();}
   if(mod==='corregir'){showScreen('corregir-screen');openCorregir();}
-  if(mod==='servicio'){showScreen('servicio-screen');}
+  if(mod==='servicio'){showScreen('retiro-screen');rGoStep(1,true);}
 }
 function openServicioTab(tab){
   if(tab==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}
   if(tab==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}
 }
-function goHome(){document.getElementById('back-btn').classList.remove('show');document.getElementById('progress-fill').style.width='0%';showScreen('home-screen');window.scrollTo({top:0,behavior:'smooth'});}
+function isMgr(){ return !!(sessionOperatorObj && (sessionOperatorObj.role==='Supervisor' || sessionOperatorObj.role==='Admin')); }
+function applyRoleVisibility(){
+  const mgr = isMgr();
+  const inv = document.getElementById('card-inventario');
+  if(inv) inv.style.display = mgr ? 'flex' : 'none';
+  const scrap = document.getElementById('r-mot-scrap');
+  if(scrap) scrap.style.display = mgr ? '' : 'none';
+}
+function goHome(){document.getElementById('back-btn').classList.remove('show');document.getElementById('progress-fill').style.width='0%';applyRoleVisibility();showScreen('home-screen');window.scrollTo({top:0,behavior:'smooth'});}
 
 // ── CORREGIR ÚLTIMO CAMBIO ─────────────────────────────────────
 let CORR_ID = null;
@@ -1274,19 +1281,19 @@ function resetCambio(){cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter
   setScan('c-scan-equipo','📷','Escanear QR del equipo','Toca para abrir cámara / lista',"openModal('c-equipo')");setScan('c-scan-batin','🔋','Escanear código batería IN','Toca para identificar',"openModal('c-batin')");document.getElementById('c-btn1').disabled=true;document.getElementById('c-summary').style.display='none';openModule('cambio');}
 
 // RETIRO
-const MCOL={servicio:'sel-orange',scrap:'sel-red',garantia:'sel-purple'};
-const MLAB={servicio:'🔧 Servicio externo',scrap:'🗑️ Scrap / Baja definitiva',garantia:'📦 Garantía'};
+const MCOL={servicio:'sel-orange',scrap:'sel-red'};
+const MLAB={servicio:'🔧 Servicio externo',scrap:'🗑️ Scrap / Baja definitiva'};
 function rGoStep(n,skip){[1,2,3].forEach(i=>{document.getElementById('r-step'+i).style.display=i===n?'block':'none';});const labs=['BATERÍA','EQUIPO','OPERADOR'];[1,2,3].forEach(i=>{const d=document.getElementById('r-dot-'+i);d.className='step-dot'+(i<n?' done':i===n?' active-danger':'');});document.getElementById('r-step-label').textContent=labs[n-1];document.getElementById('progress-fill').style.width=(((n-1)/3)*100)+'%';if(!skip)window.scrollTo({top:0,behavior:'smooth'});if(n===3)rCheckStep3();}
 function rOnBat(val){rS.bat=val;document.getElementById('r-bat-sel').classList.toggle('filled',!!val);const eq=BAT2EQ[val]||null;rS.eqOrigen=eq||'';const infoDiv=document.getElementById('r-equipo-info');const eid=document.getElementById('r-equipo-id');const esub=document.getElementById('r-equipo-sub');if(val&&eq){infoDiv.style.display='block';eid.textContent=eq;eid.style.color='var(--blue)';esub.textContent='Equipo donde está instalada actualmente';}else if(val&&!eq){infoDiv.style.display='block';eid.textContent='En almacén';eid.style.color='var(--text-muted)';esub.textContent='Batería no asignada a ningún equipo';}else infoDiv.style.display='none';rCheckStep1();}
-function rSetMotivo(mot){rS.motivo=mot;['servicio','scrap','garantia'].forEach(m=>{document.getElementById('r-mot-'+m).className='toggle-btn'+(m===mot?' '+MCOL[m]:'');});rCheckStep1();}
+function rSetMotivo(mot){rS.motivo=mot;['servicio','scrap'].forEach(m=>{const el=document.getElementById('r-mot-'+m);if(el)el.className='toggle-btn'+(m===mot?' '+MCOL[m]:'');});rCheckStep1();}
 function rCheckStep1(){document.getElementById('r-btn1').disabled=!(rS.bat&&rS.motivo);}
 function rSetReemplazo(val){rS.reemplazo=val;document.getElementById('r-repl-si').className='toggle-btn'+(val===true?' sel-green':'');document.getElementById('r-repl-no').className='toggle-btn'+(val===false?' sel-dim':'');document.getElementById('r-repl-fields').style.display=val?'block':'none';document.getElementById('r-equipo-sin-bat-banner').style.display=(!val&&rS.eqOrigen)?'block':'none';if(!val){rS.replBat='';rS.hourmeter='';document.getElementById('r-btn2').disabled=false;}else rCheckStep2();}
 function rOnRepl(val){rS.replBat=val;rCheckStep2();}
 function rCheckStep2(){if(rS.reemplazo===null){document.getElementById('r-btn2').disabled=true;return;}if(!rS.reemplazo){document.getElementById('r-btn2').disabled=false;return;}rS.hourmeter=document.getElementById('r-hourmeter').value;document.getElementById('r-btn2').disabled=!(rS.replBat&&rS.hourmeter);}
-function rCheckStep3(){rS.operator=getOperator();const opEl=document.getElementById('r-operator-display');if(opEl)opEl.textContent=rS.operator||'—';const np=['servicio','garantia'].includes(rS.motivo);document.getElementById('r-proveedor-field').style.display=np?'block':'none';document.getElementById('r-retorno-field').style.display=np?'block':'none';const ok=!!rS.operator;document.getElementById('r-btn-submit').disabled=!ok;if(ok)rBuildSum();document.getElementById('r-summary').style.display=ok?'block':'none';}
+function rCheckStep3(){rS.operator=getOperator();const opEl=document.getElementById('r-operator-display');if(opEl)opEl.textContent=rS.operator||'—';const np=rS.motivo==='servicio';document.getElementById('r-proveedor-field').style.display=np?'block':'none';document.getElementById('r-retorno-field').style.display=np?'block':'none';const ok=!!rS.operator;document.getElementById('r-btn-submit').disabled=!ok;if(ok)rBuildSum();document.getElementById('r-summary').style.display=ok?'block':'none';}
 function rBuildSum(){const reemplStr=rS.reemplazo?`${rS.replBat} · ${rS.hourmeter} hrs`:(rS.eqOrigen?'⚠️ Equipo queda vacío':'N/A');let html=`<div class="meta-row"><span>Batería retirada</span><span>${rS.bat}</span></div><div class="meta-row"><span>Equipo origen</span><span>${rS.eqOrigen||'Almacén'}</span></div><div class="meta-row"><span>Motivo</span><span>${MLAB[rS.motivo]}</span></div><div class="meta-row"><span>Reemplazo</span><span>${reemplStr}</span></div>`;const prov=document.getElementById('r-proveedor').value;if(prov)html+=`<div class="meta-row"><span>Proveedor</span><span>${prov}</span></div>`;html+=`<div class="meta-row"><span>Operador</span><span>${rS.operator}</span></div>`;document.getElementById('r-summary-content').innerHTML=html;}
-function rSubmit(){const now=new Date();const prov=document.getElementById('r-proveedor').value;const ret=document.getElementById('r-retorno').value;const notes=document.getElementById('r-notes').value;const reemplStr=rS.reemplazo?`${rS.replBat} · ${rS.hourmeter} hrs`:'No';const rRecord={cliente_id:1,event_type:'retiro',event_datetime:now.toISOString(),equipment_id:rS.eqOrigen||null,battery_out:rS.bat,battery_in:rS.replBat||null,hourmeter:rS.hourmeter?parseInt(rS.hourmeter):null,motivo:rS.motivo,operator_name:getOperator(),notes};saveEvent(rRecord);updateBatteryStatus(rS.bat,rS.motivo==='scrap'?'scrap':'en_servicio',null);if(rS.replBat)updateBatteryStatus(rS.replBat,'en_equipo',rS.eqOrigen);addRecent('retiro-'+rS.motivo,rS.bat,MLAB[rS.motivo]);addToHistorial('retiro',rS.bat,MLAB[rS.motivo]+' · '+(rS.eqOrigen||'Almacén'),getOperator()||'—');const subs={scrap:'La batería fue dada de baja definitivamente.',servicio:'La batería fue enviada a servicio externo.',garantia:'La reclamación de garantía fue registrada.',prestamo:'La batería fue registrada como préstamo.'};document.getElementById('retiro-result-sub').textContent=subs[rS.motivo]||'Retiro registrado.';document.getElementById('retiro-result-meta').innerHTML=`<div class="meta-row"><span>Batería retirada</span><span>${rS.bat}</span></div><div class="meta-row"><span>Equipo origen</span><span>${rS.eqOrigen||'Almacén'}</span></div><div class="meta-row"><span>Motivo</span><span>${MLAB[rS.motivo]}</span></div><div class="meta-row"><span>Reemplazo</span><span>${reemplStr}</span></div>${prov?`<div class="meta-row"><span>Proveedor</span><span>${prov}</span></div>`:''}${ret?`<div class="meta-row"><span>Retorno est.</span><span>${ret}</span></div>`:''}<div class="meta-row"><span>Operador</span><span>${rS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';showScreen('retiro-result');}
-function resetRetiro(){rS={bat:'',motivo:'',eqOrigen:'',reemplazo:null,replBat:'',hourmeter:'',operator:'',proveedor:'',retorno:'',notes:''};['r-bat-sel','r-repl-sel','r-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});['r-hourmeter','r-proveedor','r-retorno'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('r-notes').value='';document.getElementById('r-equipo-info').style.display='none';document.getElementById('r-repl-fields').style.display='none';document.getElementById('r-equipo-sin-bat-banner').style.display='none';['servicio','scrap','garantia'].forEach(m=>{document.getElementById('r-mot-'+m).className='toggle-btn';});['r-repl-si','r-repl-no'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('r-scan-bat','🔋','Escanear código de batería','Toca para identificar',"openModal('r-bat')");setScan('r-scan-repl','🔋','Escanear batería de reemplazo','Toca para identificar',"openModal('r-repl')");openModule('retiro');}
+function rSubmit(){const now=new Date();const prov=document.getElementById('r-proveedor').value;const ret=document.getElementById('r-retorno').value;const notes=document.getElementById('r-notes').value;const reemplStr=rS.reemplazo?`${rS.replBat} · ${rS.hourmeter} hrs`:'No';const rRecord={cliente_id:1,event_type:'retiro',event_datetime:now.toISOString(),equipment_id:rS.eqOrigen||null,battery_out:rS.bat,battery_in:rS.replBat||null,hourmeter:rS.hourmeter?parseInt(rS.hourmeter):null,motivo:rS.motivo,operator_name:getOperator(),notes};saveEvent(rRecord);updateBatteryStatus(rS.bat,rS.motivo==='scrap'?'scrap':'en_servicio',null);if(rS.replBat)updateBatteryStatus(rS.replBat,'en_equipo',rS.eqOrigen);addRecent('retiro-'+rS.motivo,rS.bat,MLAB[rS.motivo]);addToHistorial('retiro',rS.bat,MLAB[rS.motivo]+' · '+(rS.eqOrigen||'Almacén'),getOperator()||'—');const subs={scrap:'La batería fue dada de baja definitivamente.',servicio:'La batería fue enviada a servicio externo.',prestamo:'La batería fue registrada como préstamo.'};document.getElementById('retiro-result-sub').textContent=subs[rS.motivo]||'Retiro registrado.';document.getElementById('retiro-result-meta').innerHTML=`<div class="meta-row"><span>Batería retirada</span><span>${rS.bat}</span></div><div class="meta-row"><span>Equipo origen</span><span>${rS.eqOrigen||'Almacén'}</span></div><div class="meta-row"><span>Motivo</span><span>${MLAB[rS.motivo]}</span></div><div class="meta-row"><span>Reemplazo</span><span>${reemplStr}</span></div>${prov?`<div class="meta-row"><span>Proveedor</span><span>${prov}</span></div>`:''}${ret?`<div class="meta-row"><span>Retorno est.</span><span>${ret}</span></div>`:''}<div class="meta-row"><span>Operador</span><span>${rS.operator}</span></div><div class="meta-row"><span>Hora</span><span>${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>`;document.getElementById('progress-fill').style.width='100%';showScreen('retiro-result');}
+function resetRetiro(){rS={bat:'',motivo:'',eqOrigen:'',reemplazo:null,replBat:'',hourmeter:'',operator:'',proveedor:'',retorno:'',notes:''};['r-bat-sel','r-repl-sel','r-operator'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('filled');}});['r-hourmeter','r-proveedor','r-retorno'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('r-notes').value='';document.getElementById('r-equipo-info').style.display='none';document.getElementById('r-repl-fields').style.display='none';document.getElementById('r-equipo-sin-bat-banner').style.display='none';['servicio','scrap'].forEach(m=>{const el=document.getElementById('r-mot-'+m);if(el)el.className='toggle-btn';});['r-repl-si','r-repl-no'].forEach(id=>{document.getElementById(id).className='toggle-btn';});setScan('r-scan-bat','🔋','Escanear código de batería','Toca para identificar',"openModal('r-bat')");setScan('r-scan-repl','🔋','Escanear batería de reemplazo','Toca para identificar',"openModal('r-repl')");openModule('retiro');}
 
 function addRecent(type,equip,detail){const now=new Date();const time=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});const list=document.getElementById('recent-list');const item=document.createElement('div');item.className='recent-item';item.innerHTML=`<div class="recent-dot ${type}"></div><div class="recent-main"><div class="recent-equip">${equip}</div><div class="recent-detail">${detail}</div></div><div class="recent-time">${time}</div>`;list.insertBefore(item,list.firstChild);}
 
@@ -1459,6 +1466,7 @@ function pinSubmit() {
     } else {
       document.getElementById('login-screen').style.display='none';
       updateOperatorBadge();
+      applyRoleVisibility();
       startSessionTimer();
       showToast('👷 Bienvenido, '+match.name.split(' ')[0]);
     }
@@ -1511,6 +1519,7 @@ async function pinChangeSubmit(){
   }
   document.getElementById('pinchange-screen').style.display = 'none';
   updateOperatorBadge();
+  applyRoleVisibility();
   startSessionTimer();
   showToast('✅ PIN actualizado — bienvenido, '+sessionOperator.split(' ')[0]);
 }
@@ -1684,7 +1693,7 @@ function buildHistDetail(r){
     return `${r.battery_out||'?'} → ${r.battery_in||'?'} · ${r.hourmeter||'?'} hrs`;
   }
   if(r.event_type === 'retiro'){
-    const motivos = {servicio:'🔧 Servicio',scrap:'🗑️ Scrap',garantia:'📦 Garantía'};
+    const motivos = {servicio:'🔧 Servicio',scrap:'🗑️ Scrap'};
     return (motivos[r.motivo]||r.motivo||'Retiro') + ' · ' + (r.equipment_id||'Almacén');
   }
   if(r.event_type === 'retorno_servicio'){
