@@ -285,6 +285,12 @@
       <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">HISTORIAL</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Registros del día</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
+    <!-- Corregir último cambio - full width -->
+    <div onclick="openModule('corregir')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
+      <div style="font-size:28px;flex-shrink:0">✏️</div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">CORREGIR CAMBIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Editar o anular tu último cambio</div></div>
+      <div style="color:var(--text-dim);font-size:20px">›</div>
+    </div>
     <!-- Inventario - full width -->
     <div onclick="openModule('inventario')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--purple-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SUPERVISOR</span>
@@ -885,6 +891,15 @@
   </div>
 </div>
 
+<main class="main" id="corregir-screen" style="display:none">
+  <div style="margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)">✏️ CORREGIR ÚLTIMO CAMBIO</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Solo tu último cambio, dentro de 1 hora</div>
+  </div>
+  <div id="corregir-content"></div>
+  <button class="home-btn" onclick="goHome()">← VOLVER AL INICIO</button>
+</main>
+
 <script>
 const EQUIPOS=['F-27','F-34','F-39','F-41','F-42','F-43','F-46','F-47','F-49','F-51','F-52','F-53','F-54','F-55','F-56','F-57','F-58','F-59','F-60','F-61','F-62','OP-1','OP-2','PE-01','PJ-65','PJ-69','PJ-80','PJ-81','PJ-85','PJ-86','PJ-89','PJ-90','PJ-91','PJ-92','PJ-93','PJ-94','PJ-95','PJ-96','PJ-97','PJ-98','PJ-99','PJ-100','PJ-101','PJ-102','PJ-103','PJ-104','PJ-106'];
 const BATTERIES=['B02','B18','B19','B42','B43','B56','B57','B58','B63','B97','B98','B99','B100','B103','B105','B107','B108','B109','B110','B111','B112','B113','B114','B115','B116','B117','B118','B119','B120','B121','B122','B123','B124','B125','B126','B127','B128','B129','B130','B131','B132','B133','B134','B135','B136','B137','B138','B139','B140','B141','B143','B144','B145','B146','B147','B148','B149','B150','B151','B152','B153','B154','B155','B156','B157','B158','B159','B160','B161','B162','B163','B164','B165','B166','B167','B168','B169','B170','B171','B172','B173','B174','B175','B176','B177','B178','B179','B181','B182','B183','B184','B185','B186','B187'];
@@ -901,11 +916,12 @@ function populateSel(id,items,ph){const s=document.getElementById(id);s.innerHTM
 populateSel('c-equipo-sel',EQUIPOS,'— Seleccionar equipo —');
 populateSel('r-bat-sel',BATTERIES,'— Seleccionar batería —');
 
-function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','servicio-screen','equalizacion-alert','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
+function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','agua-screen','servicio-screen','corregir-screen','equalizacion-alert','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
 function openModule(mod){document.getElementById('back-btn').classList.add('show');document.getElementById('progress-fill').style.width='0%';if(mod==='cambio'){showScreen('cambio-screen');cGoStep(1,true);}if(mod==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}if(mod==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}if(mod==='historial'){showScreen('historial-screen');openHistorial();}
   if(mod==='inventario'){showScreen('inventario-screen');openInventario();}
   if(mod==='lavado'){showScreen('lavado-screen');openLavado();}
   if(mod==='agua'){showScreen('agua-screen');openAgua();}
+  if(mod==='corregir'){showScreen('corregir-screen');openCorregir();}
   if(mod==='servicio'){showScreen('servicio-screen');}
 }
 function openServicioTab(tab){
@@ -913,6 +929,56 @@ function openServicioTab(tab){
   if(tab==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}
 }
 function goHome(){document.getElementById('back-btn').classList.remove('show');document.getElementById('progress-fill').style.width='0%';showScreen('home-screen');window.scrollTo({top:0,behavior:'smooth'});}
+
+// ── CORREGIR ÚLTIMO CAMBIO ─────────────────────────────────────
+let CORR_ID = null;
+async function openCorregir(){
+  const op = getOperator();
+  const cont = document.getElementById('corregir-content');
+  CORR_ID = null;
+  if(!op){ cont.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:30px">No hay operador activo.</div>'; return; }
+  cont.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:30px">Buscando tu último cambio…</div>';
+  const data = await supaFetch('/rest/v1/battery_events?cliente_id=eq.1&event_type=eq.cambio&operator_name=eq.'+encodeURIComponent(op)+'&order=event_datetime.desc&limit=1&select=id,event_datetime,equipment_id,battery_out,battery_in,hourmeter');
+  if(!data || !data.length){ cont.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:30px">No tienes cambios registrados.</div>'; return; }
+  const ev = data[0];
+  const mins = (Date.now() - new Date(ev.event_datetime).getTime())/60000;
+  if(mins > 60){ cont.innerHTML='<div style="background:var(--danger-dim);border:1px solid var(--danger);color:var(--danger);border-radius:12px;padding:18px;text-align:center;line-height:1.5">Tu último cambio fue hace más de 1 hora.<br>Pide ayuda a tu supervisor para corregirlo.</div>'; return; }
+  corregirRender(ev);
+}
+function corregirRender(ev){
+  CORR_ID = ev.id;
+  const hora = new Date(ev.event_datetime).toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'America/Puerto_Rico'});
+  const opt=(arr,sel)=>arr.map(x=>'<option value="'+x+'"'+(x===sel?' selected':'')+'>'+x+'</option>').join('');
+  document.getElementById('corregir-content').innerHTML=
+    '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px">'+
+      '<div style="font-size:12px;color:var(--text-dim);margin-bottom:12px">Registrado a las '+hora+'</div>'+
+      '<div class="field-label">Equipo</div>'+
+      '<select id="corr-equipo" style="width:100%;margin-bottom:12px">'+opt(EQUIPOS,ev.equipment_id)+'</select>'+
+      '<div class="field-label">Batería que salió (OUT)</div>'+
+      '<select id="corr-batout" style="width:100%;margin-bottom:12px">'+opt(BATTERIES,ev.battery_out)+'</select>'+
+      '<div class="field-label">Batería que entró (IN)</div>'+
+      '<select id="corr-batin" style="width:100%;margin-bottom:12px">'+opt(BATTERIES,ev.battery_in)+'</select>'+
+      '<div class="field-label">Horómetro</div>'+
+      '<input type="number" id="corr-hourmeter" value="'+(ev.hourmeter||'')+'" style="width:100%">'+
+    '</div>'+
+    '<button onclick="corregirGuardar()" class="submit-btn" style="width:100%;margin-bottom:10px">💾 GUARDAR CORRECCIÓN</button>'+
+    '<button onclick="corregirAnular()" style="width:100%;padding:18px;border-radius:12px;border:1px solid var(--danger);background:var(--danger-dim);color:var(--danger);font-family:var(--mono);font-weight:700;font-size:14px;cursor:pointer">🗑️ ANULAR ESTE CAMBIO</button>';
+}
+async function corregirGuardar(){
+  if(!CORR_ID) return;
+  const body={equipment_id:document.getElementById('corr-equipo').value,battery_out:document.getElementById('corr-batout').value,battery_in:document.getElementById('corr-batin').value,hourmeter:parseInt(document.getElementById('corr-hourmeter').value)||null};
+  if(!body.battery_in){ showToast('⚠️ Falta la batería que entra (IN)'); return; }
+  const ok=await supaFetch('/rest/v1/battery_events?id=eq.'+CORR_ID,'PATCH',body);
+  if(ok){ updateBatteryStatus(body.battery_in,'en_equipo',body.equipment_id); if(body.battery_out)updateBatteryStatus(body.battery_out,'inventario',null); showToast('✓ Cambio corregido'); goHome(); }
+  else { showToast('❌ No se pudo corregir'); }
+}
+async function corregirAnular(){
+  if(!CORR_ID) return;
+  if(!confirm('¿Seguro que quieres ANULAR este cambio? No se puede deshacer.')) return;
+  const ok=await supaFetch('/rest/v1/battery_events?id=eq.'+CORR_ID,'DELETE');
+  if(ok){ showToast('✓ Cambio anulado'); goHome(); }
+  else { showToast('❌ No se pudo anular'); }
+}
 
 // CAMBIO
 function cGoStep(n,skip){[1,2,3].forEach(i=>{document.getElementById('c-step'+i).style.display=i===n?'block':'none';});const labs=['EQUIPO','BATERÍA IN','OPERADOR'];[1,2,3].forEach(i=>{const d=document.getElementById('c-dot-'+i);d.className='step-dot'+(i<n?' done':i===n?' active':'');});document.getElementById('c-step-label').textContent=labs[n-1];document.getElementById('progress-fill').style.width=(((n-1)/3)*100)+'%';if(!skip)window.scrollTo({top:0,behavior:'smooth'});if(n===3)cCheckStep4();}
