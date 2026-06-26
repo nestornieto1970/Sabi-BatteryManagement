@@ -282,7 +282,7 @@
     <div onclick="openModule('servicio')" style="grid-column:1/-1;background:var(--surface);border:1px solid var(--danger-dim);border-radius:var(--radius-lg);padding:16px 20px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;overflow:hidden;transition:all 0.2s">
       <span style="position:absolute;top:10px;right:10px;background:var(--danger-dim);color:var(--danger);border:1px solid var(--danger);font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px">SERVICIO</span>
       <div style="font-size:28px;flex-shrink:0">🔧</div>
-      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--danger)">SERVICIO BATERÍAS</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Requiere Servicio · Retorno</div></div>
+      <div style="flex:1"><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--danger)">SERVICIO</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Baterías · Equipos · Retorno</div></div>
       <div style="color:var(--text-dim);font-size:20px">›</div>
     </div>
     <!-- Historial - full width -->
@@ -401,21 +401,108 @@
   </div>
 </main>
 
-<!-- MÓDULO SERVICIO BATERÍAS (wrapper con tabs) -->
+<!-- MÓDULO SERVICIO (selector principal) -->
 <main class="main" id="servicio-screen" style="display:none">
   <div style="margin-bottom:20px">
-    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--danger)">🔧 SERVICIO BATERÍAS</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Selecciona una opción</div>
+    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--danger)">🔧 SERVICIO</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Selecciona qué deseas gestionar</div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div onclick="openServicioTab('retiro')" style="background:var(--surface);border:2px solid var(--danger-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
-      <div style="font-size:32px">🚨</div>
-      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--danger)">ENVIAR A SERVICIO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Retiro o scrap</div></div>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div onclick="openServicioTab('baterias')" style="background:var(--surface);border:2px solid var(--danger-dim);border-radius:var(--radius-lg);padding:18px 16px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s">
+      <div style="font-size:30px;flex-shrink:0">🔋</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--danger)">BATERÍAS</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">Activar o inactivar batería</div></div>
+      <div style="margin-left:auto;color:var(--text-dim);font-size:20px">›</div>
     </div>
-    <div onclick="openServicioTab('retorno')" style="background:var(--surface);border:2px solid var(--orange-dim);border-radius:var(--radius-lg);padding:20px 16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all 0.2s">
-      <div style="font-size:32px">🔁</div>
-      <div><div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)">RETORNO</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Batería regresa de servicio</div></div>
+    <div onclick="openServicioTab('equipos')" style="background:var(--surface);border:2px solid var(--accent-dim);border-radius:var(--radius-lg);padding:18px 16px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s">
+      <div style="font-size:30px;flex-shrink:0">🚜</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)">EQUIPOS</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">Activar o inactivar equipo</div></div>
+      <div style="margin-left:auto;color:var(--text-dim);font-size:20px">›</div>
     </div>
+    <div onclick="openServicioTab('retiro')" style="background:var(--surface);border:2px solid var(--orange-dim);border-radius:var(--radius-lg);padding:18px 16px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s">
+      <div style="font-size:30px;flex-shrink:0">🚨</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--orange)">ENVIAR A SERVICIO</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">Retiro o scrap</div></div>
+      <div style="margin-left:auto;color:var(--text-dim);font-size:20px">›</div>
+    </div>
+    <div onclick="openServicioTab('retorno')" style="background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-lg);padding:18px 16px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s">
+      <div style="font-size:30px;flex-shrink:0">🔁</div>
+      <div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)">RETORNO</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">Batería regresa de servicio</div></div>
+      <div style="margin-left:auto;color:var(--text-dim);font-size:20px">›</div>
+    </div>
+  </div>
+</main>
+
+<!-- MÓDULO ACTIVAR/INACTIVAR BATERÍAS -->
+<main class="main" id="srv-baterias-screen" style="display:none">
+  <div style="margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--danger)">🔋 BATERÍAS</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Cambiar estado de batería</div>
+  </div>
+  <div class="field-group">
+    <label class="field-label">Número de batería</label>
+    <select id="srv-bat-sel" onchange="srvLoadBateria(this.value)" style="width:100%;padding:10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px">
+      <option value="">— Seleccionar batería —</option>
+    </select>
+  </div>
+  <div id="srv-bat-info" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-top:4px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:12px;color:var(--text-muted)">Estado actual</span>
+      <span id="srv-bat-status-badge" style="font-size:11px;padding:3px 10px;border-radius:20px"></span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px">
+      <span>Pool</span><span id="srv-bat-pool" style="color:var(--text)">—</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted)">
+      <span>Equipo actual</span><span id="srv-bat-equipo" style="color:var(--text)">—</span>
+    </div>
+  </div>
+  <div id="srv-bat-actions" style="display:none">
+    <button id="srv-bat-btn-inactivar" onclick="srvConfirmarBateria('Inactivo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">INACTIVAR BATERÍA</button>
+    <button id="srv-bat-btn-activar" onclick="srvConfirmarBateria('Activo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">ACTIVAR BATERÍA</button>
+  </div>
+  <!-- Confirmación inline -->
+  <div id="srv-bat-confirm" style="display:none;background:var(--surface);border:2px solid var(--danger);border-radius:var(--radius-lg);padding:16px;text-align:center">
+    <div style="font-size:24px;margin-bottom:8px" id="srv-bat-confirm-icon">⚠️</div>
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px" id="srv-bat-confirm-title"></div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px" id="srv-bat-confirm-msg"></div>
+    <button onclick="srvEjecutarBateria()" style="width:100%;padding:12px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px" id="srv-bat-confirm-btn">CONFIRMAR</button>
+    <button onclick="srvCancelConfirm('bat')" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg);background:transparent;color:var(--text);font-size:13px;cursor:pointer">Cancelar</button>
+  </div>
+</main>
+
+<!-- MÓDULO ACTIVAR/INACTIVAR EQUIPOS -->
+<main class="main" id="srv-equipos-screen" style="display:none">
+  <div style="margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent)">🚜 EQUIPOS</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Cambiar estado de equipo</div>
+  </div>
+  <div class="field-group">
+    <label class="field-label">Número de equipo</label>
+    <select id="srv-eq-sel" onchange="srvLoadEquipo(this.value)" style="width:100%;padding:10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px">
+      <option value="">— Seleccionar equipo —</option>
+    </select>
+  </div>
+  <div id="srv-eq-info" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-top:4px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:12px;color:var(--text-muted)">Estado actual</span>
+      <span id="srv-eq-status-badge" style="font-size:11px;padding:3px 10px;border-radius:20px"></span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px">
+      <span>Tipo</span><span id="srv-eq-tipo" style="color:var(--text)">—</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted)">
+      <span>Pool</span><span id="srv-eq-pool" style="color:var(--text)">—</span>
+    </div>
+  </div>
+  <div id="srv-eq-actions" style="display:none">
+    <button id="srv-eq-btn-inactivar" onclick="srvConfirmarEquipo('Inactivo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">INACTIVAR EQUIPO</button>
+    <button id="srv-eq-btn-activar" onclick="srvConfirmarEquipo('Activo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">ACTIVAR EQUIPO</button>
+  </div>
+  <div id="srv-eq-confirm" style="display:none;background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius-lg);padding:16px;text-align:center">
+    <div style="font-size:24px;margin-bottom:8px" id="srv-eq-confirm-icon">⚠️</div>
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px" id="srv-eq-confirm-title"></div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px" id="srv-eq-confirm-msg"></div>
+    <button onclick="srvEjecutarEquipo()" style="width:100%;padding:12px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px" id="srv-eq-confirm-btn">CONFIRMAR</button>
+    <button onclick="srvCancelConfirm('eq')" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg);background:transparent;color:var(--text);font-size:13px;cursor:pointer">Cancelar</button>
   </div>
 </main>
 
@@ -915,17 +1002,19 @@ function populateSel(id,items,ph){const s=document.getElementById(id);s.innerHTM
 populateSel('c-equipo-sel',EQUIPOS,'— Seleccionar equipo —');
 populateSel('r-bat-sel',BATTERIES,'— Seleccionar batería —');
 
-function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','agua-screen','servicio-screen','corregir-screen','equalizacion-alert','cambio-result','retiro-result','retorno-result','inventario-result'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
+function showScreen(id){['home-screen','cambio-screen','retiro-screen','retorno-screen','historial-screen','inventario-screen','lavado-screen','agua-screen','servicio-screen','corregir-screen','equalizacion-alert','cambio-result','retiro-result','retorno-result','inventario-result','srv-baterias-screen','srv-equipos-screen'].forEach(s=>{const el=document.getElementById(s);if(!el)return;el.style.display='none';el.classList&&el.classList.remove('show');});const t=document.getElementById(id);if(!t)return;if(t.classList.contains('result-screen')){t.style.display='flex';t.classList.add('show');}else t.style.display='block';}
 function openModule(mod){document.getElementById('back-btn').classList.add('show');document.getElementById('progress-fill').style.width='0%';if(mod==='cambio'){showScreen('cambio-screen');cGoStep(1,true);}if(mod==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}if(mod==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}if(mod==='historial'){showScreen('historial-screen');openHistorial();}
   if(mod==='inventario'){showScreen('inventario-screen');openInventario();}
   if(mod==='lavado'){showScreen('lavado-screen');openLavado();}
   if(mod==='agua'){showScreen('agua-screen');openAgua();}
   if(mod==='corregir'){showScreen('corregir-screen');openCorregir();}
-  if(mod==='servicio'){showScreen('retiro-screen');rGoStep(1,true);}
+  if(mod==='servicio'){showScreen('servicio-screen');}
 }
 function openServicioTab(tab){
   if(tab==='retiro'){showScreen('retiro-screen');rGoStep(1,true);}
   if(tab==='retorno'){rtPopulateBats();showScreen('retorno-screen');rtGoStep(1,true);}
+  if(tab==='baterias'){srvOpenBaterias();}
+  if(tab==='equipos'){srvOpenEquipos();}
 }
 function isMgr(){ return !!(sessionOperatorObj && (sessionOperatorObj.role==='Supervisor' || sessionOperatorObj.role==='Admin')); }
 function applyRoleVisibility(){
@@ -1837,6 +1926,146 @@ async function loadBatteryStatus(){
       }
     });
     console.log('Battery status loaded from DB');
+  }
+}
+
+// ── SERVICIO: ACTIVAR / INACTIVAR ────────────────────────────
+let srvBatData = null;
+let srvEqData = null;
+let srvBatNuevoEstado = '';
+let srvEqNuevoEstado = '';
+
+function srvOpenBaterias(){
+  showScreen('srv-baterias-screen');
+  const sel = document.getElementById('srv-bat-sel');
+  sel.innerHTML = '<option value="">— Seleccionar batería —</option>';
+  BATTERIES.forEach(b => { const o=document.createElement('option');o.value=b;o.textContent=b;sel.appendChild(o); });
+  document.getElementById('srv-bat-info').style.display='none';
+  document.getElementById('srv-bat-actions').style.display='none';
+  document.getElementById('srv-bat-confirm').style.display='none';
+  srvBatData=null;
+}
+
+async function srvLoadBateria(batId){
+  document.getElementById('srv-bat-info').style.display='none';
+  document.getElementById('srv-bat-actions').style.display='none';
+  document.getElementById('srv-bat-confirm').style.display='none';
+  if(!batId) return;
+  const data = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batId}&select=battery_id,active_status,battery_pool`);
+  if(!data || !data.length) return;
+  srvBatData = data[0];
+  const status = srvBatData.active_status || 'Activo';
+  const pool = srvBatData.battery_pool || '—';
+  // Find current equipment from LAST_BAT
+  const equipo = Object.entries(LAST_BAT).find(([eq,b])=>b===batId)?.[0] || '—';
+  const badge = document.getElementById('srv-bat-status-badge');
+  badge.textContent = status;
+  badge.style.cssText = status==='Activo'
+    ? 'font-size:11px;padding:3px 10px;border-radius:20px;background:#e8f5e0;color:#3a6b20;border:1px solid #c5e0b0'
+    : 'font-size:11px;padding:3px 10px;border-radius:20px;background:#fdecea;color:#b03030;border:1px solid #f5b8b8';
+  document.getElementById('srv-bat-pool').textContent = pool;
+  document.getElementById('srv-bat-equipo').textContent = equipo;
+  document.getElementById('srv-bat-info').style.display='block';
+  document.getElementById('srv-bat-actions').style.display='block';
+  const btnI = document.getElementById('srv-bat-btn-inactivar');
+  const btnA = document.getElementById('srv-bat-btn-activar');
+  if(status==='Activo'){ btnI.style.display='block'; btnA.style.display='none'; }
+  else { btnI.style.display='none'; btnA.style.display='block'; }
+}
+
+function srvConfirmarBateria(nuevoEstado){
+  srvBatNuevoEstado = nuevoEstado;
+  const batId = document.getElementById('srv-bat-sel').value;
+  const esInactivar = nuevoEstado==='Inactivo';
+  document.getElementById('srv-bat-confirm-icon').textContent = esInactivar ? '⚠️' : '✅';
+  document.getElementById('srv-bat-confirm-title').textContent = (esInactivar?'Inactivar ':'Activar ') + batId;
+  document.getElementById('srv-bat-confirm-msg').textContent = esInactivar
+    ? 'Esta batería quedará fuera de servicio. ¿Confirmas?'
+    : 'Esta batería volverá al inventario activo. ¿Confirmas?';
+  const confirmBtn = document.getElementById('srv-bat-confirm-btn');
+  confirmBtn.textContent = esInactivar ? 'SÍ, INACTIVAR' : 'SÍ, ACTIVAR';
+  confirmBtn.style.background = esInactivar ? '#e05c3a' : 'var(--accent)';
+  document.getElementById('srv-bat-confirm').style.display='block';
+  document.getElementById('srv-bat-actions').style.display='none';
+}
+
+async function srvEjecutarBateria(){
+  const batId = document.getElementById('srv-bat-sel').value;
+  if(!batId) return;
+  const res = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batId}`, 'PATCH', {active_status: srvBatNuevoEstado});
+  document.getElementById('srv-bat-confirm').style.display='none';
+  // Refresh display
+  await srvLoadBateria(batId);
+  alert(`Batería ${batId} — estado actualizado a ${srvBatNuevoEstado}`);
+}
+
+function srvOpenEquipos(){
+  showScreen('srv-equipos-screen');
+  const sel = document.getElementById('srv-eq-sel');
+  sel.innerHTML = '<option value="">— Seleccionar equipo —</option>';
+  EQUIPOS.forEach(e => { const o=document.createElement('option');o.value=e;o.textContent=e;sel.appendChild(o); });
+  document.getElementById('srv-eq-info').style.display='none';
+  document.getElementById('srv-eq-actions').style.display='none';
+  document.getElementById('srv-eq-confirm').style.display='none';
+  srvEqData=null;
+}
+
+async function srvLoadEquipo(eqId){
+  document.getElementById('srv-eq-info').style.display='none';
+  document.getElementById('srv-eq-actions').style.display='none';
+  document.getElementById('srv-eq-confirm').style.display='none';
+  if(!eqId) return;
+  const data = await supaFetch(`/rest/v1/equipment_list?equipment_id=eq.${eqId}&select=equipment_id,active_status,type,battery_pool`);
+  if(!data || !data.length) return;
+  srvEqData = data[0];
+  const status = srvEqData.active_status || 'Activo';
+  const badge = document.getElementById('srv-eq-status-badge');
+  badge.textContent = status;
+  badge.style.cssText = status==='Activo'
+    ? 'font-size:11px;padding:3px 10px;border-radius:20px;background:#e8f5e0;color:#3a6b20;border:1px solid #c5e0b0'
+    : 'font-size:11px;padding:3px 10px;border-radius:20px;background:#fdecea;color:#b03030;border:1px solid #f5b8b8';
+  document.getElementById('srv-eq-tipo').textContent = srvEqData.type || '—';
+  document.getElementById('srv-eq-pool').textContent = srvEqData.battery_pool || '—';
+  document.getElementById('srv-eq-info').style.display='block';
+  document.getElementById('srv-eq-actions').style.display='block';
+  const btnI = document.getElementById('srv-eq-btn-inactivar');
+  const btnA = document.getElementById('srv-eq-btn-activar');
+  if(status==='Activo'){ btnI.style.display='block'; btnA.style.display='none'; }
+  else { btnI.style.display='none'; btnA.style.display='block'; }
+}
+
+function srvConfirmarEquipo(nuevoEstado){
+  srvEqNuevoEstado = nuevoEstado;
+  const eqId = document.getElementById('srv-eq-sel').value;
+  const esInactivar = nuevoEstado==='Inactivo';
+  document.getElementById('srv-eq-confirm-icon').textContent = esInactivar ? '⚠️' : '✅';
+  document.getElementById('srv-eq-confirm-title').textContent = (esInactivar?'Inactivar ':'Activar ') + eqId;
+  document.getElementById('srv-eq-confirm-msg').textContent = esInactivar
+    ? 'Este equipo quedará fuera de servicio. ¿Confirmas?'
+    : 'Este equipo volverá al inventario activo. ¿Confirmas?';
+  const confirmBtn = document.getElementById('srv-eq-confirm-btn');
+  confirmBtn.textContent = esInactivar ? 'SÍ, INACTIVAR' : 'SÍ, ACTIVAR';
+  confirmBtn.style.background = esInactivar ? '#e05c3a' : 'var(--accent)';
+  document.getElementById('srv-eq-confirm').style.display='block';
+  document.getElementById('srv-eq-actions').style.display='none';
+}
+
+async function srvEjecutarEquipo(){
+  const eqId = document.getElementById('srv-eq-sel').value;
+  if(!eqId) return;
+  await supaFetch(`/rest/v1/equipment_list?equipment_id=eq.${eqId}`, 'PATCH', {active_status: srvEqNuevoEstado});
+  document.getElementById('srv-eq-confirm').style.display='none';
+  await srvLoadEquipo(eqId);
+  alert(`Equipo ${eqId} — estado actualizado a ${srvEqNuevoEstado}`);
+}
+
+function srvCancelConfirm(tipo){
+  if(tipo==='bat'){
+    document.getElementById('srv-bat-confirm').style.display='none';
+    document.getElementById('srv-bat-actions').style.display='block';
+  } else {
+    document.getElementById('srv-eq-confirm').style.display='none';
+    document.getElementById('srv-eq-actions').style.display='block';
   }
 }
 
