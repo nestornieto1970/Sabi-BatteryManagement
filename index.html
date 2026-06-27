@@ -1241,19 +1241,24 @@ function lavSelectBat(batteryId){
       <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--text)">${batteryId}</div>
       <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Último lavado: ${lastLabel}</div>
     </div>
-    <button onclick="lavMark('${batteryId}')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface2)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+      <button onclick="lavMark('${batteryId}','Lavado')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface2)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
+      <button onclick="lavMark('${batteryId}','OK')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--green)'};background:${washedToday?'var(--surface2)':'var(--green-dim)'};color:${washedToday?'var(--text-dim)':'var(--green)'}">${washedToday?'✓ REVISADO HOY':'✅ NO REQUIERE LAVADO'}</button>
+    </div>
   </div>`;
 }
 
-async function lavMark(batteryId){
+async function lavMark(batteryId, accion='Lavado'){
   const now = new Date().toISOString();
   const result = await supaFetch('/rest/v1/battery_wash_log', 'POST', {
     battery_id: batteryId,
     wash_datetime: now,
-    operator_name: getOperator()
+    operator_name: getOperator(),
+    accion: accion
   });
   if(result){
-    showToast(`✓ ${batteryId} marcada como lavada`);
+    const msg = accion === 'OK' ? `✓ ${batteryId} — No requiere lavado registrado` : `✓ ${batteryId} marcada como lavada`;
+    showToast(msg);
   } else {
     showToast('⚠️ Error al guardar');
   }
@@ -1301,21 +1306,26 @@ function aguaSelectBat(batteryId){
   detail.innerHTML = `<div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px">
     <div>
       <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--text)">${batteryId}</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Última agua: ${lastLabel}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Última acción: ${lastLabel}</div>
     </div>
-    <button onclick="aguaMark('${batteryId}')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--cyan)'};background:${wateredToday?'var(--surface2)':'var(--cyan-dim)'};color:${wateredToday?'var(--text-dim)':'var(--cyan)'}">${wateredToday?'✓ AGUA HOY':'💧 MARCAR AGUA'}</button>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+      <button onclick="aguaMark('${batteryId}','Agregada')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--cyan)'};background:${wateredToday?'var(--surface2)':'var(--cyan-dim)'};color:${wateredToday?'var(--text-dim)':'var(--cyan)'}">${wateredToday?'✓ AGUA HOY':'💧 MARCAR AGUA'}</button>
+      <button onclick="aguaMark('${batteryId}','OK')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--green)'};background:${wateredToday?'var(--surface2)':'var(--green-dim)'};color:${wateredToday?'var(--text-dim)':'var(--green)'}">${wateredToday?'✓ REVISADO HOY':'✅ NIVEL OK'}</button>
+    </div>
   </div>`;
 }
 
-async function aguaMark(batteryId){
+async function aguaMark(batteryId, accion='Agregada'){
   const now = new Date().toISOString();
   const result = await supaFetch('/rest/v1/battery_water_log', 'POST', {
     battery_id: batteryId,
     water_datetime: now,
-    operator_name: getOperator()
+    operator_name: getOperator(),
+    accion: accion
   });
   if(result){
-    showToast(`✓ ${batteryId} marcada con agua`);
+    const msg = accion === 'OK' ? `✓ ${batteryId} — Nivel OK registrado` : `✓ ${batteryId} marcada con agua`;
+    showToast(msg);
   } else {
     showToast('⚠️ Error al guardar');
   }
