@@ -1243,7 +1243,7 @@ function lavSelectBat(batteryId){
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
       <button onclick="lavMark('${batteryId}','Lavado')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface2)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ LAVADO HOY':'🧽 MARCAR LAVADO'}</button>
-      <button onclick="lavMark('${batteryId}','OK')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--green)'};background:${washedToday?'var(--surface2)':'var(--green-dim)'};color:${washedToday?'var(--text-dim)':'var(--green)'}">${washedToday?'✓ REVISADO HOY':'✅ NO REQUIERE LAVADO'}</button>
+      <button onclick="lavMark('${batteryId}','OK')" ${washedToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${washedToday?'default':'pointer'};border:1px solid ${washedToday?'var(--border)':'var(--accent)'};background:${washedToday?'var(--surface2)':'var(--accent-dim)'};color:${washedToday?'var(--text-dim)':'var(--accent)'}">${washedToday?'✓ REVISADO HOY':'✅ NO REQUIERE LAVADO'}</button>
     </div>
   </div>`;
 }
@@ -1310,7 +1310,7 @@ function aguaSelectBat(batteryId){
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
       <button onclick="aguaMark('${batteryId}','Agregada')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--cyan)'};background:${wateredToday?'var(--surface2)':'var(--cyan-dim)'};color:${wateredToday?'var(--text-dim)':'var(--cyan)'}">${wateredToday?'✓ AGUA HOY':'💧 MARCAR AGUA'}</button>
-      <button onclick="aguaMark('${batteryId}','OK')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--green)'};background:${wateredToday?'var(--surface2)':'var(--green-dim)'};color:${wateredToday?'var(--text-dim)':'var(--green)'}">${wateredToday?'✓ REVISADO HOY':'✅ NIVEL OK'}</button>
+      <button onclick="aguaMark('${batteryId}','OK')" ${wateredToday?'disabled':''} style="font-family:var(--mono);font-size:11px;font-weight:700;border-radius:20px;padding:10px 16px;cursor:${wateredToday?'default':'pointer'};border:1px solid ${wateredToday?'var(--border)':'var(--accent)'};background:${wateredToday?'var(--surface2)':'var(--accent-dim)'};color:${wateredToday?'var(--text-dim)':'var(--accent)'}">${wateredToday?'✓ REVISADO HOY':'✅ NIVEL OK'}</button>
     </div>
   </div>`;
 }
