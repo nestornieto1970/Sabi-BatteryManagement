@@ -1998,6 +1998,7 @@ function srvConfirmarBateria(nuevoEstado){
   const confirmBtn = document.getElementById('srv-bat-confirm-btn');
   confirmBtn.textContent = esInactivar ? 'SÍ, INACTIVAR' : 'SÍ, ACTIVAR';
   confirmBtn.style.background = esInactivar ? '#e05c3a' : 'var(--accent)';
+  confirmBtn.disabled = false; confirmBtn.style.opacity = '1';
   document.getElementById('srv-bat-confirm').style.display='block';
   document.getElementById('srv-bat-actions').style.display='none';
 }
@@ -2005,6 +2006,9 @@ function srvConfirmarBateria(nuevoEstado){
 async function srvEjecutarBateria(){
   const batId = document.getElementById('srv-bat-sel').value;
   if(!batId) return;
+  // Evitar doble clic: deshabilitar el botón mientras se procesa
+  const cb = document.getElementById('srv-bat-confirm-btn');
+  if(cb){ cb.disabled = true; cb.style.opacity = '0.4'; }
   const res = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batId}`, 'PATCH', {active_status: srvBatNuevoEstado});
   document.getElementById('srv-bat-confirm').style.display='none';
   // Refresh display
@@ -2075,6 +2079,7 @@ function srvConfirmarEquipo(nuevoEstado){
   const confirmBtn = document.getElementById('srv-eq-confirm-btn');
   confirmBtn.textContent = esInactivar ? 'SÍ, INACTIVAR' : 'SÍ, ACTIVAR';
   confirmBtn.style.background = esInactivar ? '#e05c3a' : 'var(--accent)';
+  confirmBtn.disabled = false; confirmBtn.style.opacity = '1';
   document.getElementById('srv-eq-confirm').style.display='block';
   document.getElementById('srv-eq-actions').style.display='none';
 }
@@ -2082,6 +2087,9 @@ function srvConfirmarEquipo(nuevoEstado){
 async function srvEjecutarEquipo(){
   const eqId = document.getElementById('srv-eq-sel').value;
   if(!eqId) return;
+  // Evitar doble clic: deshabilitar el botón mientras se procesa
+  const cb = document.getElementById('srv-eq-confirm-btn');
+  if(cb){ cb.disabled = true; cb.style.opacity = '0.4'; }
   await supaFetch(`/rest/v1/equipment_list?equipment_id=eq.${eqId}`, 'PATCH', {active_status: srvEqNuevoEstado});
   document.getElementById('srv-eq-confirm').style.display='none';
   await srvLoadEquipo(eqId);
@@ -2331,8 +2339,15 @@ async function invSubmitNueva(){
 
 async function invSubmitBaja(){
   if(!invBajaId) return;
+  // Evitar doble clic: deshabilitar el botón mientras se procesa
+  const bajaBtn = document.getElementById('inv-btn-baja');
+  if(bajaBtn){ bajaBtn.disabled = true; bajaBtn.style.opacity = '0.4'; }
   const motivo = document.getElementById('inv-baja-motivo').value || 'No especificado';
   const notes  = document.getElementById('inv-baja-notes').value;
+
+  // Eliminar suave: sacar del inventario (ya no aparece en las listas, historial se conserva)
+  await supaFetch(`/rest/v1/battery_list?battery_id=eq.${invBajaId}`, 'PATCH',
+    {deleted: true, active_status: 'Inactivo'});
 
   // Update battery_status to scrap
   await supaFetch('/rest/v1/battery_status', 'POST',
@@ -2346,6 +2361,8 @@ async function invSubmitBaja(){
   });
 
   addRecent('retiro-scrap', invBajaId, `Baja — ${motivo}`);
+  // Refrescar listas para que la batería ya no aparezca
+  await loadBatteries();
   document.getElementById('inv-result-icon').textContent = '🗑️';
   document.getElementById('inv-result-icon').style.background = 'var(--danger-dim)';
   document.getElementById('inv-result-icon').style.borderColor = 'var(--danger)';
