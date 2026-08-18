@@ -458,6 +458,7 @@
   <div id="srv-bat-actions" style="display:none">
     <button id="srv-bat-btn-inactivar" onclick="srvConfirmarBateria('Inactivo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">INACTIVAR BATERÍA</button>
     <button id="srv-bat-btn-activar" onclick="srvConfirmarBateria('Activo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">ACTIVAR BATERÍA</button>
+    <button id="srv-bat-btn-eliminar" onclick="srvEliminarBateria()" style="display:none;width:100%;padding:12px;border:1px solid #b03030;border-radius:var(--radius-lg);background:transparent;color:#b03030;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;margin-bottom:10px">🗑️ ELIMINAR DEL INVENTARIO</button>
   </div>
   <!-- Confirmación inline -->
   <div id="srv-bat-confirm" style="display:none;background:var(--surface);border:2px solid var(--danger);border-radius:var(--radius-lg);padding:16px;text-align:center">
@@ -496,6 +497,7 @@
   <div id="srv-eq-actions" style="display:none">
     <button id="srv-eq-btn-inactivar" onclick="srvConfirmarEquipo('Inactivo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:#e05c3a;color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">INACTIVAR EQUIPO</button>
     <button id="srv-eq-btn-activar" onclick="srvConfirmarEquipo('Activo')" style="display:none;width:100%;padding:14px;border:none;border-radius:var(--radius-lg);background:var(--accent);color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px">ACTIVAR EQUIPO</button>
+    <button id="srv-eq-btn-eliminar" onclick="srvEliminarEquipo()" style="display:none;width:100%;padding:12px;border:1px solid #b03030;border-radius:var(--radius-lg);background:transparent;color:#b03030;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;margin-bottom:10px">🗑️ ELIMINAR DEL INVENTARIO</button>
   </div>
   <div id="srv-eq-confirm" style="display:none;background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius-lg);padding:16px;text-align:center">
     <div style="font-size:24px;margin-bottom:8px" id="srv-eq-confirm-icon">⚠️</div>
@@ -1896,7 +1898,7 @@ async function loadOperators(){
 
 // ── LOAD BATTERY STATUS FROM DB ───────────────────────────────
 async function loadEquipos(){
-  const data = await supaFetch('/rest/v1/equipment_list?select=equipment_id');
+  const data = await supaFetch('/rest/v1/equipment_list?deleted=not.is.true&select=equipment_id');
   if(data && data.length){
     const ids = data.map(r=>r.equipment_id).filter(Boolean);
     ids.sort((a,b)=>{
@@ -1912,7 +1914,7 @@ async function loadEquipos(){
 }
 
 async function loadBatteries(){
-  const data = await supaFetch('/rest/v1/battery_list?select=battery_id');
+  const data = await supaFetch('/rest/v1/battery_list?deleted=not.is.true&select=battery_id');
   if(data && data.length){
     const ids = data.map(r=>r.battery_id).filter(Boolean);
     ids.sort((a,b)=>(parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
@@ -1981,6 +1983,7 @@ async function srvLoadBateria(batId){
   const btnA = document.getElementById('srv-bat-btn-activar');
   if(status==='Activo'){ btnI.style.display='block'; btnA.style.display='none'; }
   else { btnI.style.display='none'; btnA.style.display='block'; }
+  document.getElementById('srv-bat-btn-eliminar').style.display = isSupervisorUser() ? 'block' : 'none';
 }
 
 function srvConfirmarBateria(nuevoEstado){
@@ -2007,6 +2010,21 @@ async function srvEjecutarBateria(){
   // Refresh display
   await srvLoadBateria(batId);
   alert(`Batería ${batId} — estado actualizado a ${srvBatNuevoEstado}`);
+}
+
+async function srvEliminarBateria(){
+  const batId = document.getElementById('srv-bat-sel').value;
+  if(!batId) return;
+  if(!isSupervisorUser()){ alert('Solo el Supervisor puede eliminar del inventario.'); return; }
+  if(!confirm(`¿Eliminar la batería ${batId} del inventario?\n\nYa no aparecerá en las listas. Su historial se conserva.`)) return;
+  const res = await supaFetch(`/rest/v1/battery_list?battery_id=eq.${batId}`, 'PATCH', {deleted: true, active_status: 'Inactivo'});
+  if(res){
+    alert(`Batería ${batId} eliminada del inventario.`);
+    await loadBatteries();
+    srvOpenBaterias();
+  } else {
+    alert(`No se pudo eliminar ${batId}. Revisa permisos o conexión.`);
+  }
 }
 
 function srvOpenEquipos(){
@@ -2042,6 +2060,7 @@ async function srvLoadEquipo(eqId){
   const btnA = document.getElementById('srv-eq-btn-activar');
   if(status==='Activo'){ btnI.style.display='block'; btnA.style.display='none'; }
   else { btnI.style.display='none'; btnA.style.display='block'; }
+  document.getElementById('srv-eq-btn-eliminar').style.display = isSupervisorUser() ? 'block' : 'none';
 }
 
 function srvConfirmarEquipo(nuevoEstado){
@@ -2067,6 +2086,21 @@ async function srvEjecutarEquipo(){
   document.getElementById('srv-eq-confirm').style.display='none';
   await srvLoadEquipo(eqId);
   alert(`Equipo ${eqId} — estado actualizado a ${srvEqNuevoEstado}`);
+}
+
+async function srvEliminarEquipo(){
+  const eqId = document.getElementById('srv-eq-sel').value;
+  if(!eqId) return;
+  if(!isSupervisorUser()){ alert('Solo el Supervisor puede eliminar del inventario.'); return; }
+  if(!confirm(`¿Eliminar el equipo ${eqId} del inventario?\n\nYa no aparecerá en las listas. Su historial se conserva.`)) return;
+  const res = await supaFetch(`/rest/v1/equipment_list?equipment_id=eq.${eqId}`, 'PATCH', {deleted: true, active_status: 'Inactivo'});
+  if(res){
+    alert(`Equipo ${eqId} eliminado del inventario.`);
+    await loadEquipos();
+    srvOpenEquipos();
+  } else {
+    alert(`No se pudo eliminar ${eqId}. Revisa permisos o conexión.`);
+  }
 }
 
 function srvCancelConfirm(tipo){
