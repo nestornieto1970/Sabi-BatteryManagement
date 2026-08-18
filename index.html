@@ -627,13 +627,13 @@
   </div>
 
   <div id="inv-content" style="display:none">
-    <div style="margin-bottom:20px">
+    <div style="margin-bottom:16px">
       <div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--purple)">INVENTARIO</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Gestión de baterías</div>
     </div>
 
-    <!-- Action tabs -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+    <!-- Sección: Gestión de baterías -->
+    <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;letter-spacing:0.03em">🔋 GESTIÓN DE BATERÍAS</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
       <div class="toggle-btn" id="inv-tab-nueva" onclick="invSetTab('nueva')" style="padding:18px 6px">
         <span class="tbicon">➕</span>
         <span class="tblabel" style="font-size:11px">NUEVA BATERÍA</span>
@@ -644,6 +644,26 @@
         <span class="tblabel" style="font-size:11px">DAR DE BAJA</span>
         <span class="tbsub" style="font-size:11px">Retirar definitivamente</span>
       </div>
+    </div>
+
+    <!-- Sección: Gestión de equipos -->
+    <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;letter-spacing:0.03em">🚜 GESTIÓN DE EQUIPOS</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div class="toggle-btn" id="inv-tab-eq-nueva" onclick="invSetTab('eq-nueva')" style="padding:18px 6px">
+        <span class="tbicon">➕</span>
+        <span class="tblabel" style="font-size:11px">NUEVO EQUIPO</span>
+        <span class="tbsub" style="font-size:11px">Agregar al inventario</span>
+      </div>
+      <div class="toggle-btn" id="inv-tab-eq-baja" onclick="invSetTab('eq-baja')" style="padding:18px 6px">
+        <span class="tbicon">🗑️</span>
+        <span class="tblabel" style="font-size:11px">DAR DE BAJA</span>
+        <span class="tbsub" style="font-size:11px">Retirar definitivamente</span>
+      </div>
+    </div>
+
+    <!-- Sección: Operadores -->
+    <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;letter-spacing:0.03em">👷 OPERADORES</div>
+    <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px">
       <div class="toggle-btn" id="inv-tab-operadores" onclick="invSetTab('operadores')" style="padding:18px 6px;display:none">
         <span class="tbicon">👷</span>
         <span class="tblabel" style="font-size:11px">OPERADORES</span>
@@ -759,6 +779,88 @@
       </div>
 
       <button id="inv-btn-baja" onclick="invSubmitBaja()" disabled
+        style="width:100%;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(248,81,73,0.3)">
+        🗑️ CONFIRMAR BAJA
+      </button>
+    </div>
+
+    <!-- NUEVO EQUIPO FORM -->
+    <div id="inv-form-eq-nueva" style="display:none">
+      <p class="section-title">Nuevo equipo — información</p>
+
+      <div class="field-group">
+        <label class="field-label">Equipment ID <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="inv-eq-new-id" placeholder="ej. F-63" oninput="invCheckNuevaEq()" style="text-transform:uppercase">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Tipo de equipo <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="inv-eq-new-type" placeholder="ej. Montacargas, Traspaleta…" oninput="invCheckNuevaEq()">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Battery Pool <span style="color:var(--danger)">*</span></label>
+        <div class="select-wrap">
+          <select id="inv-eq-new-pool" onchange="invCheckNuevaEq()">
+            <option value="">— Seleccionar —</option>
+            <option>Batt A</option>
+            <option>Batt B</option>
+            <option>Batt C</option>
+            <option>Batt D</option>
+            <option>Batt E</option>
+            <option>MULTI-SHIFTER</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="inv-btn-eq-nueva" onclick="invSubmitNuevaEq()" disabled
+        style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(188,140,255,0.3)">
+        ➕ AGREGAR EQUIPO
+      </button>
+    </div>
+
+    <!-- DAR DE BAJA EQUIPO FORM -->
+    <div id="inv-form-eq-baja" style="display:none">
+      <p class="section-title">Dar de baja — seleccionar equipo</p>
+
+      <div class="field-group">
+        <div class="select-wrap">
+          <select id="inv-baja-eq-sel" onchange="invOnBajaEqSelect(this.value)">
+            <option value="">— Seleccionar equipo —</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="inv-baja-eq-info" style="display:none;margin-bottom:14px">
+        <div class="battery-out-box" style="border-color:var(--danger)">
+          <div class="battery-icon">🚜</div>
+          <div>
+            <div class="battery-id" id="inv-baja-eq-id" style="color:var(--danger)">---</div>
+            <div class="battery-sub" id="inv-baja-eq-sub">---</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Motivo de baja</label>
+        <div class="select-wrap">
+          <select id="inv-baja-eq-motivo">
+            <option value="">— Seleccionar —</option>
+            <option>Fin de vida útil</option>
+            <option>Daño físico irreparable</option>
+            <option>Falla mecánica</option>
+            <option>Vendido</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Notas <span style="color:var(--text-dim)">(opcional)</span></label>
+        <textarea id="inv-baja-eq-notes" placeholder="Descripción del estado del equipo…"></textarea>
+      </div>
+
+      <button id="inv-btn-baja-eq" onclick="invSubmitBajaEq()" disabled
         style="width:100%;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-lg);padding:18px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.02em;cursor:pointer;margin-top:8px;box-shadow:0 0 20px rgba(248,81,73,0.3)">
         🗑️ CONFIRMAR BAJA
       </button>
@@ -2183,6 +2285,7 @@ resetInactivityTimer();
 // ── INVENTARIO ────────────────────────────────────────────────
 let invTab = '';
 let invBajaId = '';
+let invBajaEqId = '';
 
 function openInventario(){
   const isSupervisor = isSupervisorUser();
@@ -2267,11 +2370,16 @@ function invSetTab(tab){
   invTab = tab;
   document.getElementById('inv-tab-nueva').className = 'toggle-btn' + (tab==='nueva'?' sel-purple':'');
   document.getElementById('inv-tab-baja').className  = 'toggle-btn' + (tab==='baja'?' sel-red':'');
+  document.getElementById('inv-tab-eq-nueva').className = 'toggle-btn' + (tab==='eq-nueva'?' sel-purple':'');
+  document.getElementById('inv-tab-eq-baja').className  = 'toggle-btn' + (tab==='eq-baja'?' sel-red':'');
   document.getElementById('inv-tab-operadores').className = 'toggle-btn' + (tab==='operadores'?' sel-blue':'');
   document.getElementById('inv-form-nueva').style.display = tab==='nueva'?'block':'none';
   document.getElementById('inv-form-baja').style.display  = tab==='baja'?'block':'none';
+  document.getElementById('inv-form-eq-nueva').style.display = tab==='eq-nueva'?'block':'none';
+  document.getElementById('inv-form-eq-baja').style.display  = tab==='eq-baja'?'block':'none';
   document.getElementById('inv-form-operadores').style.display = tab==='operadores'?'block':'none';
   if(tab==='operadores') renderOperadoresList();
+  if(tab==='eq-baja') populateSel('inv-baja-eq-sel', EQUIPOS, '— Seleccionar equipo —');
 }
 
 function invCheckNueva(){
@@ -2376,20 +2484,113 @@ async function invSubmitBaja(){
   showScreen('inventario-result');
 }
 
+// ===== EQUIPOS: nuevo y dar de baja =====
+function invCheckNuevaEq(){
+  const id   = document.getElementById('inv-eq-new-id').value.trim();
+  const type = document.getElementById('inv-eq-new-type').value.trim();
+  const pool = document.getElementById('inv-eq-new-pool').value;
+  const ok = !!(id && type && pool);
+  document.getElementById('inv-btn-eq-nueva').disabled = !ok;
+  document.getElementById('inv-btn-eq-nueva').style.opacity = ok ? '1' : '0.4';
+}
+
+async function invSubmitNuevaEq(){
+  const btn = document.getElementById('inv-btn-eq-nueva');
+  if(btn){ btn.disabled = true; btn.style.opacity = '0.4'; }  // evitar doble clic
+  const eqId = document.getElementById('inv-eq-new-id').value.trim().toUpperCase();
+  const type = document.getElementById('inv-eq-new-type').value.trim();
+  const pool = document.getElementById('inv-eq-new-pool').value;
+
+  const record = {
+    equipment_id: eqId, type: type, battery_pool: pool,
+    active_status: 'Activo', deleted: false
+  };
+  const r1 = await supaFetch('/rest/v1/equipment_list', 'POST', record);
+  if(!r1){
+    alert(`No se pudo agregar el equipo ${eqId}. Revisa permisos o conexión.`);
+    if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
+    return;
+  }
+
+  if(!EQUIPOS.includes(eqId)) EQUIPOS.push(eqId);
+  await loadEquipos();
+
+  document.getElementById('inv-result-icon').textContent = '➕';
+  document.getElementById('inv-result-icon').style.background = 'var(--purple-dim)';
+  document.getElementById('inv-result-icon').style.borderColor = 'var(--purple)';
+  document.getElementById('inv-result-title').style.color = 'var(--purple)';
+  document.getElementById('inv-result-title').textContent = 'EQUIPO AGREGADO';
+  document.getElementById('inv-result-sub').textContent = `${eqId} agregado al inventario`;
+  document.getElementById('inv-result-meta').innerHTML = `
+    <div class="meta-row"><span>Equipment ID</span><span>${eqId}</span></div>
+    <div class="meta-row"><span>Tipo</span><span>${type}</span></div>
+    <div class="meta-row"><span>Battery Pool</span><span>${pool}</span></div>
+    <div class="meta-row"><span>Registrado por</span><span>${getOperator()}</span></div>`;
+  showScreen('inventario-result');
+}
+
+function invOnBajaEqSelect(val){
+  invBajaEqId = val;
+  const info = document.getElementById('inv-baja-eq-info');
+  const btn  = document.getElementById('inv-btn-baja-eq');
+  if(val){
+    info.style.display = 'block';
+    document.getElementById('inv-baja-eq-id').textContent = val;
+    document.getElementById('inv-baja-eq-sub').textContent = 'Selecciona motivo de baja abajo';
+    btn.disabled = false; btn.style.opacity = '1';
+  } else {
+    info.style.display = 'none';
+    btn.disabled = true; btn.style.opacity = '0.4';
+  }
+}
+
+async function invSubmitBajaEq(){
+  if(!invBajaEqId) return;
+  const btn = document.getElementById('inv-btn-baja-eq');
+  if(btn){ btn.disabled = true; btn.style.opacity = '0.4'; }  // evitar doble clic
+  const motivo = document.getElementById('inv-baja-eq-motivo').value || 'No especificado';
+
+  // Eliminar suave: sacar el equipo del inventario (historial se conserva)
+  const res = await supaFetch(`/rest/v1/equipment_list?equipment_id=eq.${invBajaEqId}`, 'PATCH',
+    {deleted: true, active_status: 'Inactivo'});
+  if(!res){
+    alert(`No se pudo dar de baja el equipo ${invBajaEqId}. Revisa permisos o conexión.`);
+    if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
+    return;
+  }
+
+  await loadEquipos();
+
+  document.getElementById('inv-result-icon').textContent = '🗑️';
+  document.getElementById('inv-result-icon').style.background = 'var(--danger-dim)';
+  document.getElementById('inv-result-icon').style.borderColor = 'var(--danger)';
+  document.getElementById('inv-result-title').style.color = 'var(--danger)';
+  document.getElementById('inv-result-title').textContent = 'BAJA REGISTRADA';
+  document.getElementById('inv-result-sub').textContent = `${invBajaEqId} fue dado de baja definitivamente`;
+  document.getElementById('inv-result-meta').innerHTML = `
+    <div class="meta-row"><span>Equipo</span><span>${invBajaEqId}</span></div>
+    <div class="meta-row"><span>Motivo</span><span>${motivo}</span></div>
+    <div class="meta-row"><span>Supervisor</span><span>${getOperator()}</span></div>`;
+  showScreen('inventario-result');
+}
+
 function resetInventario(){
-  invTab = ''; invBajaId = '';
-  ['inv-new-id','inv-new-model','inv-new-serial','inv-baja-notes'].forEach(id=>{
+  invTab = ''; invBajaId = ''; invBajaEqId = '';
+  ['inv-new-id','inv-new-model','inv-new-serial','inv-baja-notes','inv-eq-new-id','inv-eq-new-type','inv-baja-eq-notes'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
-  ['inv-new-pool','inv-new-brand','inv-baja-sel','inv-baja-motivo'].forEach(id=>{
+  ['inv-new-pool','inv-new-brand','inv-baja-sel','inv-baja-motivo','inv-eq-new-pool','inv-baja-eq-sel','inv-baja-eq-motivo'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('inv-new-date').value='';
   document.getElementById('inv-baja-info').style.display='none';
-  document.getElementById('inv-tab-nueva').className='toggle-btn';
-  document.getElementById('inv-tab-baja').className='toggle-btn';
-  document.getElementById('inv-form-nueva').style.display='none';
-  document.getElementById('inv-form-baja').style.display='none';
+  const eqInfo=document.getElementById('inv-baja-eq-info'); if(eqInfo) eqInfo.style.display='none';
+  ['inv-tab-nueva','inv-tab-baja','inv-tab-eq-nueva','inv-tab-eq-baja'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.className='toggle-btn';
+  });
+  ['inv-form-nueva','inv-form-baja','inv-form-eq-nueva','inv-form-eq-baja'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
   // Reset result icon styles
   document.getElementById('inv-result-icon').style.background='var(--purple-dim)';
   document.getElementById('inv-result-icon').style.borderColor='var(--purple)';
