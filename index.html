@@ -1095,6 +1095,20 @@ const EQUIPOS=['F-27','F-34','F-39','F-41','F-42','F-43','F-46','F-47','F-49','F
 const BATTERIES=['B02','B18','B19','B42','B43','B56','B57','B58','B63','B97','B98','B99','B100','B103','B105','B107','B108','B109','B110','B111','B112','B113','B114','B115','B116','B117','B118','B119','B120','B121','B122','B123','B124','B125','B126','B127','B128','B129','B130','B131','B132','B133','B134','B135','B136','B137','B138','B139','B140','B141','B143','B144','B145','B146','B147','B148','B149','B150','B151','B152','B153','B154','B155','B156','B157','B158','B159','B160','B161','B162','B163','B164','B165','B166','B167','B168','B169','B170','B171','B172','B173','B174','B175','B176','B177','B178','B179','B181','B182','B183','B184','B185','B186','B187'];
 const LAST_BAT={'F-27':'B02','F-34':'B117','F-39':'B165','F-41':'B135','F-42':'B158','F-43':'B160','F-46':'B153','F-47':'B181','F-49':'B163','F-51':'B161','F-52':'B150','F-53':'B146','F-54':'B134','F-55':'B126','F-56':'B131','F-57':'B151','F-58':'B147','F-59':'B145','F-60':'B183','F-61':'B144','F-62':'B184','OP-1':'B178','OP-2':'B63','PE-01':'B120','PJ-65':'B98','PJ-69':'B141','PJ-80':'B56','PJ-81':'B176','PJ-85':'B109','PJ-86':'B100','PJ-89':'B166','PJ-90':'B168','PJ-91':'B138','PJ-92':'B133','PJ-93':'B167','PJ-94':'B169','PJ-95':'B99','PJ-96':'B177','PJ-97':'B187','PJ-98':'B129','PJ-99':'B175','PJ-100':'B43','PJ-101':'B57','PJ-102':'B42','PJ-103':'B186','PJ-104':'B173','PJ-106':'B136'};
 const BAT2EQ={};Object.entries(LAST_BAT).forEach(([eq,b])=>{BAT2EQ[b]=eq;});
+// Pool de cada equipo y de cada batería (se llenan desde la base). Sirven para
+// que al escoger un equipo solo se ofrezcan baterías de su mismo pool.
+const EQ_POOL={}, BAT_POOL={};
+function poolDelEquipo(eq){ return EQ_POOL[eq] || null; }
+// Baterías compatibles con el equipo seleccionado (mismo pool), excluyendo una.
+function batinList(excluir){
+  const pool = poolDelEquipo(cS.equipo);
+  let lista = BATTERIES.filter(b=> b!==excluir);
+  if(pool){
+    const mismas = lista.filter(b=> BAT_POOL[b]===pool);
+    if(mismas.length) return mismas;
+  }
+  return lista;
+}
 let cS={equipo:'',batOut:'',batOutOk:false,batIn:'',hourmeter:'',water:'',wash:'',operator:'',notes:''};
 let rS={bat:'',motivo:'',eqOrigen:'',reemplazo:null,replBat:'',hourmeter:'',operator:'',proveedor:'',retorno:'',notes:''};
 let modalMode='',modalAllItems=[];
@@ -1269,7 +1283,7 @@ function cConfirmBat(){
   document.getElementById('c-bat-out-box').className='battery-out-box confirmed';
   document.getElementById('c-bat-out-wrong-btn').style.display='block';
   document.getElementById('c-bat-out-wrong').style.display='none';
-  populateSel('c-batin-sel',BATTERIES.filter(b=>b!==cS.batOut),'— Seleccionar batería —');
+  populateSel('c-batin-sel',batinList(cS.batOut),'— Seleccionar batería —');
   cCheckStep1();
 }
 function cShowWrongBat(){
@@ -1287,7 +1301,7 @@ function cFixBatOut(val){
   document.getElementById('c-bat-out-box').className='battery-out-box confirmed';
   document.getElementById('c-bat-out-wrong').style.display='none';
   document.getElementById('c-bat-out-wrong-btn').style.display='none';
-  populateSel('c-batin-sel',BATTERIES.filter(b=>b!==val),'— Seleccionar batería —');
+  populateSel('c-batin-sel',batinList(val),'— Seleccionar batería —');
   cCheckStep1();
 }
 function cCheckStep1(){
@@ -1500,7 +1514,7 @@ function resetRetiro(){rS={bat:'',motivo:'',eqOrigen:'',reemplazo:null,replBat:'
 
 function addRecent(type,equip,detail){const now=new Date();const time=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});const list=document.getElementById('recent-list');const item=document.createElement('div');item.className='recent-item';item.innerHTML=`<div class="recent-dot ${type}"></div><div class="recent-main"><div class="recent-equip">${equip}</div><div class="recent-detail">${detail}</div></div><div class="recent-time">${time}</div>`;list.insertBefore(item,list.firstChild);}
 
-function openModal(mode){modalMode=mode;document.getElementById('modal-search-input').value='';let title='',items=[];if(mode==='c-equipo'){title='SELECCIONAR EQUIPO';items=EQUIPOS;}if(mode==='c-batin'){title='BATERÍA IN';items=BATTERIES.filter(b=>b!==cS.batOut);}if(mode==='r-bat'){title='BATERÍA A RETIRAR';items=BATTERIES;}if(mode==='r-repl'){title='BATERÍA DE REEMPLAZO';items=BATTERIES.filter(b=>b!==rS.bat);}if(mode==='inv-baja'){title='SELECCIONAR BATERÍA';items=BATTERIES;}if(mode==='rt-bat'){title='BATERÍA EN SERVICIO';items=BATS_IN_SERVICE;}document.getElementById('modal-title').textContent=title;modalAllItems=items;renderModal(items);document.getElementById('modal-overlay').classList.add('show');}
+function openModal(mode){modalMode=mode;document.getElementById('modal-search-input').value='';let title='',items=[];if(mode==='c-equipo'){title='SELECCIONAR EQUIPO';items=EQUIPOS;}if(mode==='c-batin'){title='BATERÍA IN';items=batinList(cS.batOut);}if(mode==='r-bat'){title='BATERÍA A RETIRAR';items=BATTERIES;}if(mode==='r-repl'){title='BATERÍA DE REEMPLAZO';items=BATTERIES.filter(b=>b!==rS.bat);}if(mode==='inv-baja'){title='SELECCIONAR BATERÍA';items=BATTERIES;}if(mode==='rt-bat'){title='BATERÍA EN SERVICIO';items=BATS_IN_SERVICE;}document.getElementById('modal-title').textContent=title;modalAllItems=items;renderModal(items);document.getElementById('modal-overlay').classList.add('show');}
 function renderModal(items){const list=document.getElementById('modal-list');if(!items.length){list.innerHTML='<div class="empty-state">Sin resultados</div>';return;}const sel=modalMode==='c-equipo'?cS.equipo:modalMode==='c-batin'?cS.batIn:modalMode==='r-bat'?rS.bat:rS.replBat;list.innerHTML=items.map(item=>{const sub=modalMode==='c-equipo'&&LAST_BAT[item]?`<div class="list-sub">Batería actual: ${LAST_BAT[item]}</div>`:modalMode==='r-bat'&&BAT2EQ[item]?`<div class="list-sub">En equipo: ${BAT2EQ[item]}</div>`:modalMode==='r-bat'?'<div class="list-sub">En almacén</div>':'';return`<div class="list-item ${item===sel?'selected':''}" onclick="selectModal('${item}')"><div><div class="list-id">${item}</div>${sub}</div><span class="list-check">✓</span></div>`;}).join('');}
 function filterModal(){const q=document.getElementById('modal-search-input').value.toLowerCase();renderModal(modalAllItems.filter(i=>i.toLowerCase().includes(q)));}
 function selectModal(val){closeModal();if(modalMode==='rt-bat'){document.getElementById('rt-bat-sel').value=val;rtOnBat(val);setScan('rt-scan-bat','🔋',val,'Batería identificada — toca para cambiar',"openModal('rt-bat')");}if(modalMode==='inv-baja'){document.getElementById('inv-baja-sel').value=val;invOnBajaSelect(val);setScan('inv-scan-baja','🔋',val,'Batería identificada','openModal(\'inv-baja\')');}if(modalMode==='c-equipo'){document.getElementById('c-equipo-sel').value=val;cOnEquipo(val);setScan('c-scan-equipo','✓',val,'Equipo identificado — toca para cambiar',"openModal('c-equipo')");}if(modalMode==='c-batin'){document.getElementById('c-batin-sel').value=val;cOnBatIn(val);setScan('c-scan-batin','🔋',val,'Batería IN identificada — toca para cambiar',"openModal('c-batin')");}if(modalMode==='r-bat'){document.getElementById('r-bat-sel').value=val;rOnBat(val);setScan('r-scan-bat','🔋',val,'Batería identificada — toca para cambiar',"openModal('r-bat')");}if(modalMode==='r-repl'){document.getElementById('r-repl-sel').value=val;rOnRepl(val);setScan('r-scan-repl','🔋',val,'Reemplazo identificado',"openModal('r-repl')");}}
@@ -2000,8 +2014,9 @@ async function loadOperators(){
 
 // ── LOAD BATTERY STATUS FROM DB ───────────────────────────────
 async function loadEquipos(){
-  const data = await supaFetch('/rest/v1/equipment_list?deleted=not.is.true&select=equipment_id');
+  const data = await supaFetch('/rest/v1/equipment_list?deleted=not.is.true&select=equipment_id,battery_pool');
   if(data && data.length){
+    data.forEach(r=>{ if(r.equipment_id) EQ_POOL[r.equipment_id] = r.battery_pool || null; });
     const ids = data.map(r=>r.equipment_id).filter(Boolean);
     ids.sort((a,b)=>{
       const pa=a.replace(/[0-9].*/,''), pb=b.replace(/[0-9].*/,'');
@@ -2016,8 +2031,9 @@ async function loadEquipos(){
 }
 
 async function loadBatteries(){
-  const data = await supaFetch('/rest/v1/battery_list?deleted=not.is.true&select=battery_id');
+  const data = await supaFetch('/rest/v1/battery_list?deleted=not.is.true&select=battery_id,battery_pool');
   if(data && data.length){
+    data.forEach(r=>{ if(r.battery_id) BAT_POOL[r.battery_id] = r.battery_pool || null; });
     const ids = data.map(r=>r.battery_id).filter(Boolean);
     ids.sort((a,b)=>(parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
     BATTERIES.length = 0;
